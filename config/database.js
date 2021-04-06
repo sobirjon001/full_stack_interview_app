@@ -1,5 +1,5 @@
 // import libraries
-import { createPool } from "mysql";
+const { createPool } = require("mysql");
 
 // creating mysql connection
 const mysqlHost = process.env.MYSQL_HOST || "localhost";

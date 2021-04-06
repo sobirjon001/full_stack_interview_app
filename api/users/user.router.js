@@ -1,14 +1,14 @@
 // import libraries
 const router = require("express").Router();
-import {
+const {
   createUser,
   getUsers,
   getUserByUserId,
   updateUser,
   deleteUserByUserId,
   login,
-} from "./user.controller";
-import { checkToken } from "../../auth/token_validation";
+} = require("./user.controller");
+const { checkToken } = require("../../auth/token_validation");
 
 router.post("/create_user", checkToken, createUser);
 router.get("/", checkToken, getUsers);

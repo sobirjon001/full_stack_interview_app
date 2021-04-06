@@ -1,5 +1,5 @@
 // import libraries
-import { verify } from "jsonwebtoken";
+const { verify } = require("jsonwebtoken");
 
 // encription options
 const encriptKey = process.env.ENCRIP_KEY || "qwe1234";

@@ -1,8 +1,9 @@
 // import librarie
-import express from "express";
+const express = require("express");
 const app = express();
-import userRouter from "./api/users/user.router";
-import fs from "fs";
+const userRouter = require("./api/users/user.router");
+const questionRouter = require("./api/questions/question.router");
+const fs = require("fs");
 
 // server settings
 const port = process.env.PORT || 7000;
@@ -37,6 +38,9 @@ app.get("/api/doc", (req, res) => {
 
 // all user end points
 app.use("/api/users", userRouter);
+
+// all questions end points
+app.use("/api/questions", questionRouter);
 
 // start the server
 app.listen(port, (error) => {

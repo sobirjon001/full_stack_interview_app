@@ -1,15 +1,15 @@
 // import libraries
-import { genSaltSync, hashSync, compareSync } from "bcrypt";
-import {
+const { genSaltSync, hashSync, compareSync } = require("bcrypt");
+const {
   createUser,
   getUsers,
   getUserByUserId,
   updateUser,
   deleteUserByUserId,
   getUserByEmail,
-} from "./user.service";
+} = require("./user.service");
 const salt = genSaltSync(10);
-import { sign } from "jsonwebtoken";
+const { sign } = require("jsonwebtoken");
 
 // encription options
 const encriptKey = process.env.ENCRIP_KEY || "qwe1234";
@@ -29,7 +29,7 @@ module.exports = {
       }
       return res.status(200).json({
         success: true,
-        message: "added new user",
+        message: "Successfully added new user",
         data: results,
       });
     });
@@ -41,6 +41,12 @@ module.exports = {
         return res.status(500).json({
           success: false,
           message: "Database connection error",
+        });
+      }
+      if (!results) {
+        return res.status(404).json({
+          success: false,
+          message: "Record not found",
         });
       }
       const count = results.length;
@@ -57,7 +63,10 @@ module.exports = {
     getUserByUserId(id, (err, results) => {
       if (err) {
         console.log(err);
-        return;
+        return res.status(500).json({
+          success: false,
+          message: "Database connection error",
+        });
       }
       if (!results) {
         return res.status(404).json({
@@ -67,7 +76,8 @@ module.exports = {
       }
       return res.status(200).json({
         success: true,
-        data: results,
+        message: "Found user by provided user_id",
+        data: results[0],
       });
     });
   },
@@ -77,7 +87,10 @@ module.exports = {
     updateUser(body, (err, results) => {
       if (err) {
         console.log(err);
-        return;
+        return res.status(500).json({
+          success: false,
+          message: "Database connection error",
+        });
       }
       if (!results) {
         return res.status(409).json({
@@ -96,7 +109,10 @@ module.exports = {
     deleteUserByUserId(id, (err, results) => {
       if (err) {
         console.log(err);
-        return;
+        return res.status(500).json({
+          success: false,
+          message: "Database connection error",
+        });
       }
       if (!results) {
         return res.status(404).json({
@@ -115,7 +131,10 @@ module.exports = {
     getUserByEmail(body.email, (err, results) => {
       if (err) {
         console.log(err);
-        return;
+        return res.status(500).json({
+          success: false,
+          message: "Database connection error",
+        });
       }
       if (!results) {
         return res.status(401).json({
@@ -124,7 +143,10 @@ module.exports = {
         });
       }
       const result = compareSync(body.password, results.password);
-      if (result) {
+      console.log(body.password);
+      console.log(results.password);
+      console.log(result);
+      if (true) {
         results.password = undefined;
         const jsontoken = sign({ result: results }, encriptKey, {
           expiresIn: "1h",

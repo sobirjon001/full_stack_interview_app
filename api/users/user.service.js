@@ -1,5 +1,5 @@
 // import libraries
-import pool from "../../config/database";
+const pool = require("../../config/database");
 
 module.exports = {
   createUser: (data, callback) => {
@@ -23,7 +23,7 @@ module.exports = {
         if (error) {
           return callback(error);
         }
-        return callback(results);
+        return callback(null, results);
       }
     );
   },
@@ -33,7 +33,7 @@ module.exports = {
       [id],
       (error, results, fields) => {
         if (error) {
-          return callback(error);
+          return callback(null, error);
         }
         return callback(null, results[0]);
       }
