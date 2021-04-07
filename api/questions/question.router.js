@@ -9,6 +9,8 @@ const {
   createSubject,
   updateSubject,
   createQuestion,
+  updateQuestion,
+  deleteQuestionById,
 } = require("./question.controller");
 
 router.get("/", checkToken, getQuestions);
@@ -18,5 +20,7 @@ router.get("/:id", checkToken, getQuestionById);
 router.post("/create_subject", checkToken, createSubject);
 router.patch("/update_subject", checkToken, updateSubject);
 router.post("/create", checkToken, createQuestion);
+router.patch("/update", checkToken, updateQuestion);
+router.delete("/:id", checkToken, deleteQuestionById);
 
 module.exports = router;

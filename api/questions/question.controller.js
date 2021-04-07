@@ -7,6 +7,8 @@ const {
   createSubject,
   updateSubject,
   createQuestion,
+  updateQuestion,
+  deleteQuestionById,
 } = require("./question.service");
 
 // controllers
@@ -256,6 +258,58 @@ module.exports = {
       return res.status(200).json({
         success: true,
         message: "Successfully added new question",
+        data: results,
+      });
+    });
+  },
+  updateQuestion: (req, res) => {
+    const body = req.body;
+    updateQuestion(body, (err, results) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          success: false,
+          message: "Database connection error",
+        });
+      }
+      if (results === "duplicate") {
+        return res.status(403).json({
+          success: false,
+          message: "This question already exist",
+        });
+      }
+      if (results === "invalid subject") {
+        return res.status(409).json({
+          success: false,
+          message: "Failed to update! No such a subject",
+        });
+      }
+      return res.status(200).json({
+        success: true,
+        message: "Successfully updated question",
+        data: results,
+      });
+    });
+  },
+  deleteQuestionById: (req, res) => {
+    const id = req.params.id;
+    deleteQuestionById(id, (err, results) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          success: false,
+          message: "Database connection error",
+        });
+      }
+      if (results.changedRows === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "Record not found",
+        });
+      }
+      return res.status(200).json({
+        success: true,
+        message: "Question deleted successfully",
         data: results,
       });
     });
