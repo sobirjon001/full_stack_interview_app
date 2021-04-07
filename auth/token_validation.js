@@ -6,7 +6,7 @@ const encriptKey = process.env.ENCRIP_KEY || "qwe1234";
 
 module.exports = {
   checkToken: (req, res, next) => {
-    const token = req.get("authorization");
+    let token = req.get("authorization");
     if (token) {
       token = token.slice(7);
       verify(token, encriptKey, (err, decoded) => {

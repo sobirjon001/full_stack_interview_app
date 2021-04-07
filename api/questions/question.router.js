@@ -14,9 +14,9 @@ const {
 router.get("/", checkToken, getQuestions);
 router.get("/all_subjects", checkToken, getSubjects);
 router.get("/by_subject", checkToken, getQuestionsBySubject);
-router.get("/by_question_id", checkToken, getQuestionById);
+router.get("/:id", checkToken, getQuestionById);
 router.post("/create_subject", checkToken, createSubject);
-router.post("/update_subject", checkToken, updateSubject);
+router.patch("/update_subject", checkToken, updateSubject);
 router.post("/create", checkToken, createQuestion);
 
 module.exports = router;

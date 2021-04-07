@@ -11,7 +11,7 @@ module.exports = {
         if (error) {
           return callback(error);
         }
-        return callback(null, results[0]);
+        return callback(null, results);
       }
     );
   },
@@ -41,13 +41,13 @@ module.exports = {
   },
   updateUser: (data, callback) => {
     pool.query(
-      `update users set full_name, email, password, is_admin where user_id = ?`,
+      `update users set full_name = ?, email = ?, password = ?, is_admin = ? where user_id = ?`,
       [data.full_name, data.email, data.password, data.is_admin, data.user_id],
       (error, results, fields) => {
         if (error) {
           return callback(error);
         }
-        return callback(null, results[0]);
+        return callback(null, results);
       }
     );
   },
@@ -59,7 +59,7 @@ module.exports = {
         if (error) {
           return callback(error);
         }
-        return callback(null, results[0]);
+        return callback(null, results);
       }
     );
   },

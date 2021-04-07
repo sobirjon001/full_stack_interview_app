@@ -18,7 +18,9 @@ app.use(
 
 // sanity check
 app.get("/api/hello", (req, res) => {
-  res.status(200).send("Hello World!").json({
+  res.status(200);
+  //res.send("Hello World!");
+  res.json({
     success: true,
     message: "API server is alive!",
   });

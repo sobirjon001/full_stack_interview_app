@@ -20,10 +20,10 @@ module.exports = {
           message: "Database connection error",
         });
       }
-      if (!results) {
+      if (results.length === 0) {
         return res.status(404).json({
           success: false,
-          message: "Record not found",
+          message: "No records found",
         });
       }
       const page = req.params.page;
@@ -83,10 +83,10 @@ module.exports = {
           message: "Database connection error",
         });
       }
-      if (!results) {
+      if (results.length === 0) {
         return res.status(404).json({
           success: false,
-          message: "Record not found",
+          message: "No records found",
         });
       }
       return res.status(200).json({
@@ -107,10 +107,10 @@ module.exports = {
           message: "Database connection error",
         });
       }
-      if (!results) {
+      if (results.length === 0) {
         return res.status(404).json({
           success: false,
-          message: "Record not found",
+          message: "No records found",
         });
       }
       const page = req.params.page;
@@ -171,7 +171,7 @@ module.exports = {
           message: "Database connection error",
         });
       }
-      if (!results) {
+      if (results.length === 0) {
         return res.status(404).json({
           success: false,
           message: "Record not found",
@@ -217,15 +217,17 @@ module.exports = {
           message: "Database connection error",
         });
       }
-      if (!results) {
+      if (results.affectedRows === 0) {
         return res.status(409).json({
           success: true,
           message: "Failed to update subject",
+          data: results,
         });
       }
       return res.status(200).json({
         success: true,
         message: "Subject updated successfully",
+        data: results,
       });
     });
   },
@@ -239,9 +241,15 @@ module.exports = {
           message: "Database connection error",
         });
       }
-      if (!results) {
+      if (results === "duplicate") {
+        return res.status(403).json({
+          success: false,
+          message: "This question already exist",
+        });
+      }
+      if (results === "invalid subject") {
         return res.status(409).json({
-          success: true,
+          success: false,
           message: "Failed to update! No such a subject",
         });
       }

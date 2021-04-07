@@ -76,8 +76,8 @@ module.exports = {
       }
       return res.status(200).json({
         success: true,
-        message: "Found user by provided user_id",
-        data: results[0],
+        message: "Found user by provided user_id here",
+        data: results,
       });
     });
   },
@@ -101,11 +101,12 @@ module.exports = {
       return res.status(200).json({
         success: true,
         message: "User updated successfully",
+        data: results,
       });
     });
   },
   deleteUserByUserId: (req, res) => {
-    const id = req.body.user_id;
+    const id = req.headers.user_id;
     deleteUserByUserId(id, (err, results) => {
       if (err) {
         console.log(err);
@@ -136,17 +137,14 @@ module.exports = {
           message: "Database connection error",
         });
       }
-      if (!results) {
+      if (results.length === 0) {
         return res.status(401).json({
           success: false,
           message: "Invalid email or password",
         });
       }
       const result = compareSync(body.password, results.password);
-      console.log(body.password);
-      console.log(results.password);
-      console.log(result);
-      if (true) {
+      if (result) {
         results.password = undefined;
         const jsontoken = sign({ result: results }, encriptKey, {
           expiresIn: "1h",

@@ -21,7 +21,7 @@ module.exports = {
       if (error) {
         return callback(error);
       }
-      return callback(nill, results);
+      return callback(null, results);
     });
   },
   getQuestionsBySubject: (subject, callback) => {
@@ -56,23 +56,25 @@ module.exports = {
   },
   createSubject: (subject, callback) => {
     pool.query(
-      `select subject_name from subjects`,
-      [],
+      `select subject_name from subjects where subject_name = ?`,
+      [subject],
       (error1, results1, fields1) => {
+        console.log("this is result from select querry");
+        console.log(results1);
         if (error1) {
           return callback(error1);
         }
-        if (results1) {
+        if (results1.length > 0) {
           return callback(null, "duplicate");
         }
         pool.query(
-          `insert into subjects (subject_name) valies (?)`,
-          [],
+          `insert into subjects (subject_name) values (?)`,
+          [subject],
           (error2, results2, fields2) => {
             if (error2) {
               return callback(error2);
             }
-            return callback(null, results2[0]);
+            return callback(null, results2);
           }
         );
       }
@@ -80,36 +82,48 @@ module.exports = {
   },
   updateSubject: (data, callback) => {
     pool.query(
-      `update subjects set subject_name where subject_id = ?`,
+      `update subjects set subject_name = ? where subject_id = ?`,
       [data.subject_name, data.subject_id],
       (error, results, fields) => {
         if (error) {
           return callback(error);
         }
-        return callback(null, results[0]);
+        return callback(null, results);
       }
     );
   },
   createQuestion: (data, callback) => {
     pool.query(
-      `select subject_id from subject where subject_name = ?`,
-      [data.subject_name],
-      (error1, results1, fields1) => {
-        if (error1) {
-          return callback(error1);
+      `select question from questions where question = ?`,
+      [data.question],
+      (error0, results0, fields0) => {
+        if (error0) {
+          return callback(error0);
         }
-        if (!results1) {
-          return callback(null, "invalid subject");
+        if (results0.length > 0) {
+          return callback(null, "duplicate");
         }
         pool.query(
-          `insert into questions (subject_id, question, solution, time) 
-      values(?,?,?,?)`,
-          [results1[0], data.question, data.solution, data.time],
-          (error2, results2, fields2) => {
-            if (error2) {
-              return callback(error2);
+          `select subject_id from subjects where subject_name = ?`,
+          [data.subject_name],
+          (error1, results1, fields1) => {
+            if (error1) {
+              return callback(error1);
             }
-            return callback(null, results2[0]);
+            if (results1.length === 0) {
+              return callback(null, "invalid subject");
+            }
+            pool.query(
+              `insert into questions (subject_id, question, solution, time) 
+      values(?,?,?,?)`,
+              [results1[0].subject_id, data.question, data.solution, data.time],
+              (error2, results2, fields2) => {
+                if (error2) {
+                  return callback(error2);
+                }
+                return callback(null, results2);
+              }
+            );
           }
         );
       }
