@@ -12,7 +12,7 @@ const salt = genSaltSync(10);
 const { sign } = require("jsonwebtoken");
 
 // encription options
-const encriptKey = process.env.ENCRIP_KEY || "qwe1234";
+const secretKey = process.env.SECRET_KEY || "abc1234";
 
 // controllers
 module.exports = {
@@ -146,7 +146,7 @@ module.exports = {
       const result = compareSync(body.password, results.password);
       if (result) {
         results.password = undefined;
-        const jsontoken = sign({ result: results }, encriptKey, {
+        const jsontoken = sign({ result: results }, secretKey, {
           expiresIn: "1h",
         });
         return res.status(200).json({

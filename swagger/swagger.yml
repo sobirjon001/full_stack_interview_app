@@ -1,0 +1,192 @@
+swagger: "2.0"
+info:
+  description: "Hello SDETs! This is Full Stack Interview App to perform Front end, Back end and API testing. This buid runns from docker containers. It includes node.js base API server on port 7000, mysql on port 3306, phpmyadmin on port 7001, swagger based UI documentation on port 8000. Enjoy!"
+  version: "1.0.0"
+  title: "Full Stack API App"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "sobirjon001@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost"
+basePath: "/api"
+tags:
+  - name: "sanity check"
+    description: "Test if API serve is alive"
+  - name: "authorization"
+    description: "Login to get tocken"
+  - name: "user"
+    description: "Operations about user"
+  - name: "questions"
+    description: "Operations about questions"
+schemes:
+  - "https"
+  - "http"
+paths:
+  /hello:
+    get:
+      tags:
+        - "sanity check"
+      summary: "Add a new pet to the store"
+      description: "Test if API server is up and running"
+      operationId: "hello"
+      produces:
+        - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "Successfull operation"
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: "boolean"
+                example: true
+              message:
+                type: "string"
+                example: "API server is alive!"
+  /users/login:
+    post:
+      tags:
+        - "authorization"
+      summary: "Basic login to get token"
+      description: "Login with email and password and get token, which is actove for 1h"
+      operationId: "token"
+      consumes:
+        - "application/x-www-form-urlencoded"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "email"
+          in: "headers"
+          description: "user email"
+          required: true
+          type: "string"
+        - name: "password"
+          in: "headers"
+          description: "user password"
+          required: true
+          type: "string"
+      security:
+        - basicAuth: []
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: "boolean"
+                example: true
+              message:
+                type: "string"
+                example: "Login successfull"
+              token:
+                type: "string"
+                example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXN1bHQiOnsidXNlcl9pZCI6NCwiZnVsbF9uYW1lIjoiQWRtaW4gQWRtaW4iLCJlbWFpbCI6ImFkbWluQGN5YmVydGVjay5jb20iLCJpc19hZG1pbiI6MX0sImlhdCI6MTYxNzg1NjE5MiwiZXhwIjoxNjE3ODU5NzkyfQ.oB07aI7YNJkejZKi3JwTPXBxNWsebrO5xqhrRl0u86s"
+        401:
+          description: "Invalid email or password"
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: "boolean"
+                example: false
+              message:
+                type: "string"
+                example: "Invalid email or password"
+        $ref: "#components/responses/common"
+  /users/decode:
+    post:
+      tags:
+        - "authorization"
+      summary: "Decoding the token"
+      description: "Get user information based on provided token"
+      operationId: "decode"
+      parameters:
+        - name: "tags"
+          in: "query"
+          description: "Tags to filter by"
+          required: true
+          type: "array"
+          items:
+            type: "string"
+          collectionFormat: "multi"
+      security:
+        - bearerAuth: []
+      responses:
+        $ref: "#components/responses/common"
+        200:
+          description: "successful operation"
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: "boolean"
+                example: true
+              message:
+                type: "string"
+                example: "Login successfull"
+              data:
+                $ref: "#definitions/user"
+securityDefinitions:
+  basicAuth:
+    type: basic
+  bearerAuth:
+    type: http
+    scheme: bearer
+    bearerFormat: JWT
+definitions:
+  user:
+    type: "object"
+    properties:
+      user_id:
+        type: "integer"
+        format: "int64"
+        example: 1
+      full_name:
+        type: "string"
+        example: "Admin Admin"
+      email:
+        type: "string"
+        example: "admin@cyberteck.com"
+      is_admin:
+        type: "boolean"
+        example: true
+components:
+  responses:
+    common:
+      500:
+        description: "Database connection error"
+        schema:
+          type: "object"
+          properties:
+            success:
+              type: "boolean"
+              example: false
+            message:
+              type: "string"
+              example: "Database connection error"
+      403:
+        description: "Invalid or expired token"
+        schema:
+          type: "object"
+          properties:
+            success:
+              type: "boolean"
+              example: false
+            message:
+              type: "string"
+              example: "Invalid or expired token"
+      401:
+        description: "Unauthorized! Please provide token"
+        schema:
+          type: "object"
+          properties:
+            success:
+              type: "boolean"
+              example: false
+            message:
+              type: "string"
+              example: "Unauthorized! Please provide token"

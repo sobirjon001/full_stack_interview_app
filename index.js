@@ -26,18 +26,6 @@ app.get("/api/hello", (req, res) => {
   });
 });
 
-// api documentation page
-app.get("/api/doc", (req, res) => {
-  fs.readFile("./html/api_doc.html", (error, data) => {
-    res.writeHead(200, {
-      "content-Type": "text/html",
-      "Content-Length": data.length,
-    });
-    res.write(data);
-    res.end();
-  });
-});
-
 // all user end points
 app.use("/api/users", userRouter);
 

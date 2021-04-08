@@ -1,8 +1,8 @@
 // import libraries
 const { verify } = require("jsonwebtoken");
 
-// encription options
-const encriptKey = process.env.ENCRIP_KEY || "qwe1234";
+// secretKey options
+const secretKey = process.env.SECRET_KEY || "abc1234";
 
 module.exports = {
   checkToken: (req, res, next) => {
@@ -14,7 +14,8 @@ module.exports = {
         message: "Unauthorized! Please provide token",
       });
     }
-    verify(token, encriptKey, (err, decodedUser) => {
+    console.log(token);
+    verify(token, secretKey, (err, decodedUser) => {
       if (err) {
         return res.status(403).json({
           success: false,

@@ -1,11 +1,11 @@
 {
   "name": "full_stack_interview_app",
   "version": "1.0.0",
-  "description": "Full Stak Interview App",
+  "description": "Full Stack Interview App for SDET students practice",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "nodemon index.js"
+    "devStart": "nodemon index.js"
   },
   "repository": {
     "type": "git",

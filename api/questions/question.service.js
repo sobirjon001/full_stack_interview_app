@@ -1,5 +1,5 @@
 // import libraries
-const pool = require("../../config/database");
+const pool = require("../../database/database");
 
 module.exports = {
   getQuestions: (callback) => {

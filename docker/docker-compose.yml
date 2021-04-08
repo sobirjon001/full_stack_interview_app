@@ -5,11 +5,14 @@ services:
     #   context: .
     image: sobirs/api-interview-app:0.1
     container_name: interview-nodejs-app
+    depends_on:
+      - mysql
     environment:
       - MYSQL_HOST=interview-mysql-app
       - MYSQL_USER=root
       - MYSQL_PASS=root
       - MYSQL_DB=node_db
+      - SECRET_KEY=abc1234
     networks:
       - frontend
       - backend
