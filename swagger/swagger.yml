@@ -1,192 +1,426 @@
-swagger: "2.0"
+openapi: 3.0.0
 info:
-  description: "Hello SDETs! This is Full Stack Interview App to perform Front end, Back end and API testing. This buid runns from docker containers. It includes node.js base API server on port 7000, mysql on port 3306, phpmyadmin on port 7001, swagger based UI documentation on port 8000. Enjoy!"
-  version: "1.0.0"
-  title: "Full Stack API App"
-  termsOfService: "http://swagger.io/terms/"
-  contact:
-    email: "sobirjon001@gmail.com"
+  title: Full Stack API App
+  description: >-
+    Hello SDETs! This is Full Stack Interview App to perform Front end, Back end
+    and API testing. This buid runns from docker containers. It includes node.js
+    base API server on port 7000, mysql on port 3306, phpmyadmin on port 7001,
+    swagger based UI documentation on port 8000. Enjoy!
+  version: 1.0.0
+  termsOfService: 'http://swagger.io/terms/'
   license:
-    name: "Apache 2.0"
-    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-host: "localhost"
-basePath: "/api"
-tags:
-  - name: "sanity check"
-    description: "Test if API serve is alive"
-  - name: "authorization"
-    description: "Login to get tocken"
-  - name: "user"
-    description: "Operations about user"
-  - name: "questions"
-    description: "Operations about questions"
-schemes:
-  - "https"
-  - "http"
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+  contact:
+    name: Sobirdzhon
+    email: sobirjon001@gmail.com
+servers:
+  - url: 'http://localhost:7000/api'
 paths:
   /hello:
     get:
       tags:
-        - "sanity check"
-      summary: "Add a new pet to the store"
-      description: "Test if API server is up and running"
-      operationId: "hello"
-      produces:
-        - "application/json"
-      parameters: []
+        - Sanity ckeck
+      operationId: sanityCheck
+      description: Test if API server is up and running
       responses:
-        200:
-          description: "Successfull operation"
-          schema:
-            type: "object"
-            properties:
-              success:
-                type: "boolean"
-                example: true
-              message:
-                type: "string"
-                example: "API server is alive!"
+        '200':
+          description: Successfull operation
+          content:
+            application/json:
+              example:
+                success: true
+                message: API server is alive!
   /users/login:
     post:
       tags:
-        - "authorization"
-      summary: "Basic login to get token"
-      description: "Login with email and password and get token, which is actove for 1h"
-      operationId: "token"
-      consumes:
-        - "application/x-www-form-urlencoded"
-      produces:
-        - "application/json"
-      parameters:
-        - name: "email"
-          in: "headers"
-          description: "user email"
-          required: true
-          type: "string"
-        - name: "password"
-          in: "headers"
-          description: "user password"
-          required: true
-          type: "string"
+        - Authorisation
       security:
-        - basicAuth: []
+        - BasicAuth: []
+      operationId: getToken
+      description: 'Login with email and password and get token, which is active for 1h'
       responses:
-        200:
-          description: "successful operation"
-          schema:
-            type: "object"
-            properties:
-              success:
-                type: "boolean"
-                example: true
-              message:
-                type: "string"
-                example: "Login successfull"
-              token:
-                type: "string"
-                example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXN1bHQiOnsidXNlcl9pZCI6NCwiZnVsbF9uYW1lIjoiQWRtaW4gQWRtaW4iLCJlbWFpbCI6ImFkbWluQGN5YmVydGVjay5jb20iLCJpc19hZG1pbiI6MX0sImlhdCI6MTYxNzg1NjE5MiwiZXhwIjoxNjE3ODU5NzkyfQ.oB07aI7YNJkejZKi3JwTPXBxNWsebrO5xqhrRl0u86s"
-        401:
-          description: "Invalid email or password"
-          schema:
-            type: "object"
-            properties:
-              success:
-                type: "boolean"
-                example: false
-              message:
-                type: "string"
-                example: "Invalid email or password"
-        $ref: "#components/responses/common"
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              example:
+                success: true
+                message: Login successfull
+                token: >-
+                  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXN1bHQiOnsidXNlcl9pZCI6NCwiZnVsbF9uYW1lIjoiQWRtaW4gQWRtaW4iLCJlbWFpbCI6ImFkbWluQGN5YmVydGVjay5jb20iLCJpc19hZG1pbiI6MX0sImlhdCI6MTYxNzg1NjE5MiwiZXhwIjoxNjE3ODU5NzkyfQ.oB07aI7YNJkejZKi3JwTPXBxNWsebrO5xqhrRl0u86s
+        '401':
+          description: Invalid email or password
+          content:
+            application/json:
+              example:
+                success: false
+                message: Invalid email or password
+        '500':
+          $ref: '#/components/responses/500Error'
   /users/decode:
     post:
       tags:
-        - "authorization"
-      summary: "Decoding the token"
-      description: "Get user information based on provided token"
-      operationId: "decode"
-      parameters:
-        - name: "tags"
-          in: "query"
-          description: "Tags to filter by"
-          required: true
-          type: "array"
-          items:
-            type: "string"
-          collectionFormat: "multi"
+        - Authorisation
       security:
-        - bearerAuth: []
+        - BearerAuth: []
+      operationId: decode
+      description: Get user information based on provided token
       responses:
-        $ref: "#components/responses/common"
-        200:
-          description: "successful operation"
+        '200':
+          description: Successfull operation
+          content:
+            application/json:
+              example:
+                success: true
+                message: API server is alive!
+                data:
+                  user_id: 1
+                  full_name: Admin Admin
+                  email: admin@cybertek.com
+                  is_admin: 'true'
+        '403':
+          $ref: '#/components/responses/403Error'
+  /users:
+    get:
+      tags:
+        - Users
+      security:
+        - BearerAuth: []
+      operationId: getAllUsers
+      description: Get all users
+      responses:
+        '200':
+          description: Successfull operation
+          content:
+            application/json:
+              example:
+                success: true
+                message: These are all users
+                users count: 5
+                data:
+                  - user_id: 3
+                    full_name: Courtney Daugherty
+                    email: Gloria_Frami98@hotmail.com
+                    password: >-
+                      $2b$10$rk0wvwEt.DK/.WQcG9CTMeMzjhWWk2a5SfAAaK95gunp.7xII301q
+                    is_admin: 2
+                  - user_id: 4
+                    full_name: Admin Admin
+                    email: admin@cyberteck.com
+                    password: >-
+                      $2b$10$jovnoooOHyUKXJs.eIABtemDWkE8DPKqkNsThAw.9FkkBMrsRmyIm
+                    is_admin: 1
+                  - user_id: 5
+                    full_name: Ms. Muriel Runte
+                    email: Graham.Ryan87@hotmail.com
+                    password: >-
+                      $2b$10$YkvstlXye94Spz6WMTDjS.nteHSTgtFp0v.HM/m.uKdBvcu/6Dw1e
+                    is_admin: 0
+            application/xml:
+              example:
+                success: true
+                message: These are all users
+                users count: 5
+                data:
+                  - user_id: 3
+                    full_name: Courtney Daugherty
+                    email: Gloria_Frami98@hotmail.com
+                    password: >-
+                      $2b$10$rk0wvwEt.DK/.WQcG9CTMeMzjhWWk2a5SfAAaK95gunp.7xII301q
+                    is_admin: 2
+                  - user_id: 4
+                    full_name: Admin Admin
+                    email: admin@cyberteck.com
+                    password: >-
+                      $2b$10$jovnoooOHyUKXJs.eIABtemDWkE8DPKqkNsThAw.9FkkBMrsRmyIm
+                    is_admin: 1
+                  - user_id: 5
+                    full_name: Ms. Muriel Runte
+                    email: Graham.Ryan87@hotmail.com
+                    password: >-
+                      $2b$10$YkvstlXye94Spz6WMTDjS.nteHSTgtFp0v.HM/m.uKdBvcu/6Dw1e
+                    is_admin: 0
+        '401':
+          $ref: '#/components/responses/401Error'
+        '403':
+          $ref: '#/components/responses/403Error'
+        '404':
+          $ref: '#/components/responses/404Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+  /users/{id}:
+    get:
+      tags:
+        - Users
+      security:
+        - BearerAuth: []
+      operationId: getUserById
+      description: Get user by id
+      parameters: 
+        - name: id
+          in: path
+          description: user id
+          required: true
           schema:
-            type: "object"
-            properties:
-              success:
-                type: "boolean"
-                example: true
-              message:
-                type: "string"
-                example: "Login successfull"
-              data:
-                $ref: "#definitions/user"
-securityDefinitions:
-  basicAuth:
-    type: basic
-  bearerAuth:
-    type: http
-    scheme: bearer
-    bearerFormat: JWT
-definitions:
-  user:
-    type: "object"
-    properties:
-      user_id:
-        type: "integer"
-        format: "int64"
-        example: 1
-      full_name:
-        type: "string"
-        example: "Admin Admin"
-      email:
-        type: "string"
-        example: "admin@cyberteck.com"
-      is_admin:
-        type: "boolean"
-        example: true
+            type: integer
+      responses:
+        '200':
+          description: Successfull operation
+          content:
+            application/json:
+              example:
+                success: true
+                message: Found user by provided user_id here
+                data:
+                  - user_id: 1
+                    full_name: Courtney Daugherty
+                    email: Gloria_Frami98@hotmail.com
+                    password: >-
+                      $2b$10$rk0wvwEt.DK/.WQcG9CTMeMzjhWWk2a5SfAAaK95gunp.7xII301q
+                    is_admin: 2
+            application/xml:
+              example:
+                success: true
+                message: Found user by provided user_id here
+                data:
+                  - user_id: 1
+                    full_name: Courtney Daugherty
+                    email: Gloria_Frami98@hotmail.com
+                    password: >-
+                      $2b$10$rk0wvwEt.DK/.WQcG9CTMeMzjhWWk2a5SfAAaK95gunp.7xII301q
+                    is_admin: 2
+        '401':
+          $ref: '#/components/responses/401Error'
+        '403':
+          $ref: '#/components/responses/403Error'
+        '404':
+          $ref: '#/components/responses/404Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+  /users/create_user:
+    post:
+      tags:
+        - Users
+      security:
+        - BearerAuth: []
+      operationId: createNewUser
+      description: Create new User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/user'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/user'
+      responses:
+        '200':
+          description: Successfull operation
+          content:
+            application/json:
+              example:
+                success: true
+                message: Successfully updated user
+                data:
+                  fieldCount: 0
+                  affectedRows: 1
+                  insertId: 8
+                  serverStatus: 2
+                  warningCount: 0
+                  message: ''
+                  protocol41: true
+                  changedRows: 0
+            application/xml:
+              example:
+                success: true
+                message: Successfully added new user
+                data:
+                  fieldCount: 0
+                  affectedRows: 1
+                  insertId: 8
+                  serverStatus: 2
+                  warningCount: 0
+                  message: ''
+                  protocol41: true
+                  changedRows: 0
+        '401':
+          $ref: '#/components/responses/401Error'
+        '403':
+          $ref: '#/components/responses/403Error'
+        '404':
+          $ref: '#/components/responses/404Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+  /users/update_user:
+    patch:
+      tags: 
+        - Users
+      security:
+        - BearerAuth: []
+      operationId: updateUser
+      description: Update User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/user'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/user'
+      responses:
+        '200':
+          description: Successfull operation
+          content:
+            application/json:
+              example:
+                success: true
+                message: Successfully added new user
+                data:
+                  fieldCount: 0
+                  affectedRows: 1
+                  insertId: 8
+                  serverStatus: 2
+                  warningCount: 0
+                  message: ''
+                  protocol41: true
+                  changedRows: 1
+            application/xml:
+              example:
+                success: true
+                message: Successfully added new user
+                data:
+                  fieldCount: 0
+                  affectedRows: 1
+                  insertId: 8
+                  serverStatus: 2
+                  warningCount: 0
+                  message: ''
+                  protocol41: true
+                  changedRows: 1
+        '401':
+          $ref: '#/components/responses/401Error'
+        '403':
+          $ref: '#/components/responses/403Error'
+        '404':
+          $ref: '#/components/responses/404Error'
+        '409':
+          $ref: '#/components/responses/409Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+  /users/delete_user:
+    patch:
+      tags: 
+        - Users
+      security:
+        - BearerAuth: []
+      operationId: deleteUser
+      description: Delete User
+      parameters: 
+        - name: id
+          in: header
+          description: iser id to delete
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successfull operation
+          content:
+            application/json:
+              example:
+                success: true
+                message: User deleted successfully
+            application/xml:
+              example:
+                success: true
+                message: User deleted successfully
+        '401':
+          $ref: '#/components/responses/401Error'
+        '403':
+          $ref: '#/components/responses/403Error'
+        '404':
+          $ref: '#/components/responses/404Error'
+        '409':
+          $ref: '#/components/responses/409Error'
+        '500':
+          $ref: '#/components/responses/500Error'    
 components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+    BearerAuth:
+      type: http
+      scheme: bearer
   responses:
-    common:
-      500:
-        description: "Database connection error"
-        schema:
-          type: "object"
-          properties:
-            success:
-              type: "boolean"
-              example: false
-            message:
-              type: "string"
-              example: "Database connection error"
-      403:
-        description: "Invalid or expired token"
-        schema:
-          type: "object"
-          properties:
-            success:
-              type: "boolean"
-              example: false
-            message:
-              type: "string"
-              example: "Invalid or expired token"
-      401:
-        description: "Unauthorized! Please provide token"
-        schema:
-          type: "object"
-          properties:
-            success:
-              type: "boolean"
-              example: false
-            message:
-              type: "string"
-              example: "Unauthorized! Please provide token"
+    401Error:
+      description: No token provided
+      content:
+        application/json:
+          example:
+            success: false
+            message: Unauthorized! Please provide token
+        application/xml:
+          example:
+            success: false
+            message: Unauthorized! Please provide token
+    403Error:
+      description: Invalid or expired token
+      content:
+        application/json:
+          example:
+            success: false
+            message: Invalid or expired token
+        application/xml:
+          example:
+            success: false
+            message: Invalid or expired token
+    404Error:
+      description: Record not found
+      content:
+        application/json:
+          example:
+            success: false
+            message: Record not found
+        application/xml:
+          example:
+            success: false
+            message: Record not found
+    409Error:
+      description: Failed to update User
+      content:
+        application/json:
+          example:
+            success: false
+            message: Failed to update User
+        application/xml:
+          example:
+            success: false
+            message: Failed to update User
+    500Error:
+      description: Database connection error
+      content:
+        application/json:
+          example:
+            success: false
+            message: Database connection error
+        application/xml:
+          example:
+            success: false
+            message: Database connection error
+  schemas:
+    user:
+      description: User sample
+      example: 
+        user_id: 1
+        full_name: Courtney Daugherty
+        email: Gloria_Frami98@hotmail.com
+        password: $2b$10$rk0wvwEt.DK/.WQcG9CTMeMzjhWWk2a5SfAAaK95gunp.7xII301q
+        is_admin: 2
+      
+
+          
+            
+    
+    

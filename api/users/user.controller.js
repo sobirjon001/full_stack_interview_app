@@ -43,7 +43,7 @@ module.exports = {
           message: "Database connection error",
         });
       }
-      if (!results) {
+      if (results.length == 0) {
         return res.status(404).json({
           success: false,
           message: "Record not found",
@@ -92,7 +92,8 @@ module.exports = {
           message: "Database connection error",
         });
       }
-      if (!results) {
+      console.log(results);
+      if (results.affectedRows == 0) {
         return res.status(409).json({
           success: true,
           message: "Failed to update user",
