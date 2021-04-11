@@ -138,7 +138,7 @@ module.exports = {
           message: "Database connection error",
         });
       }
-      if (results.length === 0) {
+      if (!results) {
         return res.status(401).json({
           success: false,
           message: "Invalid email or password",

@@ -1,33 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To-Do-List</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-    <header>
-        <h1>User's To Do List</h1>
-    </header>
-    <form>
-        <input type="text" class="todo-input">
-        <button class="todo-button" type="submit">
-            <i class="fas fa-plus-square"></i>
-        </button>
-        <div class="select">
-            <select name="todos" class="filter-todo">
-                <option value="all">All</option>
-                <option value="completed">Completed</option>
-                <option value="uncompleted">Uncompleted</option>
-            </select>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <title>Login</title>
+  </head>
+  <body>
+    <div id="login-container-outer">
+      <div id="login-container-inner">
+        <div id="login-menue">
+          <div class="login-menue-items">
+            <span id="login" class="login-menue-item">login</span>
+            <span> | </span>
+            <span id="sign-up" class="login-menue-item">sign up</span>
+          </div>
         </div>
-    </form>
-    <div class="todo-container">
-        <ul class="todo-list"></ul>
+        <form id="login-form" class="form">
+          <span id="alert-invalid-credentials" class="alert-message hidden"
+            >Invalid email or password!</span
+          >
+          <input
+            type="text"
+            name="email"
+            id="input-login-email"
+            class="input"
+            placeholder="Email"
+          />
+          <input
+            type="text"
+            name="password"
+            id="input-login-password"
+            class="input"
+            placeholder="Password"
+          />
+          <input type="submit" value="Login" id="button-login" class="button" />
+        </form>
+      </div>
     </div>
-
-    <script src="js/app.js"></script>
-</body>
+    <script src="./js/app.js"></script>
+  </body>
 </html>
