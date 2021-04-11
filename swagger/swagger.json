@@ -1,0 +1,640 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Full Stack API App",
+    "description": "Hello SDETs! This is Full Stack Interview App to perform Front end, Back end and API testing. This buid runns from docker containers. It includes node.js base API server on port 7000, mysql on port 3306, phpmyadmin on port 7001, swagger based UI documentation on port 8000. Enjoy!",
+    "version": "1.0.0",
+    "termsOfService": "http://swagger.io/terms/",
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:7000/api"
+    }
+  ],
+  "paths": {
+    "/hello": {
+      "get": {
+        "tags": ["Sanity ckeck"],
+        "operationId": "sanityCheck",
+        "description": "Test if API server is up and running",
+        "responses": {
+          "200": {
+            "description": "Successfull operation",
+            "content": {
+              "application/json": {
+                "example": {
+                  "success": true,
+                  "message": "API server is alive!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "tags": ["Authorisation"],
+        "security": [
+          {
+            "BasicAuth": []
+          }
+        ],
+        "operationId": "getToken",
+        "description": "Login with email and password and get token, which is active for 1h",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "example": {
+                  "success": true,
+                  "message": "Login successfull",
+                  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXN1bHQiOnsidXNlcl9pZCI6NCwiZnVsbF9uYW1lIjoiQWRtaW4gQWRtaW4iLCJlbWFpbCI6ImFkbWluQGN5YmVydGVjay5jb20iLCJpc19hZG1pbiI6MX0sImlhdCI6MTYxNzg1NjE5MiwiZXhwIjoxNjE3ODU5NzkyfQ.oB07aI7YNJkejZKi3JwTPXBxNWsebrO5xqhrRl0u86s"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid email or password",
+            "content": {
+              "application/json": {
+                "example": {
+                  "success": false,
+                  "message": "Invalid email or password"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/500Error"
+          }
+        }
+      }
+    },
+    "/users/decode": {
+      "post": {
+        "tags": ["Authorisation"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "operationId": "decode",
+        "description": "Get user information based on provided token",
+        "responses": {
+          "200": {
+            "description": "Successfull operation",
+            "content": {
+              "application/json": {
+                "example": {
+                  "success": true,
+                  "message": "API server is alive!",
+                  "data": {
+                    "user_id": 1,
+                    "full_name": "Admin Admin",
+                    "email": "admin@cybertek.com",
+                    "is_admin": "true"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/403Error"
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": ["Users"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "operationId": "getAllUsers",
+        "description": "Get all users",
+        "responses": {
+          "200": {
+            "description": "Successfull operation",
+            "content": {
+              "application/json": {
+                "example": {
+                  "success": true,
+                  "message": "These are all users",
+                  "users count": 5,
+                  "data": [
+                    {
+                      "user_id": 3,
+                      "full_name": "Courtney Daugherty",
+                      "email": "Gloria_Frami98@hotmail.com",
+                      "password": "$2b$10$rk0wvwEt.DK/.WQcG9CTMeMzjhWWk2a5SfAAaK95gunp.7xII301q",
+                      "is_admin": 2
+                    },
+                    {
+                      "user_id": 4,
+                      "full_name": "Admin Admin",
+                      "email": "admin@cyberteck.com",
+                      "password": "$2b$10$jovnoooOHyUKXJs.eIABtemDWkE8DPKqkNsThAw.9FkkBMrsRmyIm",
+                      "is_admin": 1
+                    },
+                    {
+                      "user_id": 5,
+                      "full_name": "Ms. Muriel Runte",
+                      "email": "Graham.Ryan87@hotmail.com",
+                      "password": "$2b$10$YkvstlXye94Spz6WMTDjS.nteHSTgtFp0v.HM/m.uKdBvcu/6Dw1e",
+                      "is_admin": 0
+                    }
+                  ]
+                }
+              },
+              "application/xml": {
+                "example": {
+                  "success": true,
+                  "message": "These are all users",
+                  "users count": 5,
+                  "data": [
+                    {
+                      "user_id": 3,
+                      "full_name": "Courtney Daugherty",
+                      "email": "Gloria_Frami98@hotmail.com",
+                      "password": "$2b$10$rk0wvwEt.DK/.WQcG9CTMeMzjhWWk2a5SfAAaK95gunp.7xII301q",
+                      "is_admin": 2
+                    },
+                    {
+                      "user_id": 4,
+                      "full_name": "Admin Admin",
+                      "email": "admin@cyberteck.com",
+                      "password": "$2b$10$jovnoooOHyUKXJs.eIABtemDWkE8DPKqkNsThAw.9FkkBMrsRmyIm",
+                      "is_admin": 1
+                    },
+                    {
+                      "user_id": 5,
+                      "full_name": "Ms. Muriel Runte",
+                      "email": "Graham.Ryan87@hotmail.com",
+                      "password": "$2b$10$YkvstlXye94Spz6WMTDjS.nteHSTgtFp0v.HM/m.uKdBvcu/6Dw1e",
+                      "is_admin": 0
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/404Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/500Error"
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "tags": ["Users"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "operationId": "getUserById",
+        "description": "Get user by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "user id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull operation",
+            "content": {
+              "application/json": {
+                "example": {
+                  "success": true,
+                  "message": "Found user by provided user_id here",
+                  "data": [
+                    {
+                      "user_id": 1,
+                      "full_name": "Courtney Daugherty",
+                      "email": "Gloria_Frami98@hotmail.com",
+                      "password": "$2b$10$rk0wvwEt.DK/.WQcG9CTMeMzjhWWk2a5SfAAaK95gunp.7xII301q",
+                      "is_admin": 2
+                    }
+                  ]
+                }
+              },
+              "application/xml": {
+                "example": {
+                  "success": true,
+                  "message": "Found user by provided user_id here",
+                  "data": [
+                    {
+                      "user_id": 1,
+                      "full_name": "Courtney Daugherty",
+                      "email": "Gloria_Frami98@hotmail.com",
+                      "password": "$2b$10$rk0wvwEt.DK/.WQcG9CTMeMzjhWWk2a5SfAAaK95gunp.7xII301q",
+                      "is_admin": 2
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/404Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/500Error"
+          }
+        }
+      }
+    },
+    "/users/create_user": {
+      "post": {
+        "tags": ["Users"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "operationId": "createNewUser",
+        "description": "Create new User",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/user"
+              },
+              "example": {
+                "user_id": 1,
+                "full_name": "Courtney Daugherty",
+                "email": "Gloria_Frami98@hotmail.com",
+                "password": "$2b$10$rk0wvwEt.DK/.WQcG9CTMeMzjhWWk2a5SfAAaK95gunp.7xII301q",
+                "is_admin": 2
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/user"
+              },
+              "example": {
+                "user_id": 1,
+                "full_name": "Courtney Daugherty",
+                "email": "Gloria_Frami98@hotmail.com",
+                "password": "$2b$10$rk0wvwEt.DK/.WQcG9CTMeMzjhWWk2a5SfAAaK95gunp.7xII301q",
+                "is_admin": 2
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfull operation",
+            "content": {
+              "application/json": {
+                "example": {
+                  "success": true,
+                  "message": "Successfully updated user",
+                  "data": {
+                    "fieldCount": 0,
+                    "affectedRows": 1,
+                    "insertId": 8,
+                    "serverStatus": 2,
+                    "warningCount": 0,
+                    "message": "",
+                    "protocol41": true,
+                    "changedRows": 0
+                  }
+                }
+              },
+              "application/xml": {
+                "example": {
+                  "success": true,
+                  "message": "Successfully added new user",
+                  "data": {
+                    "fieldCount": 0,
+                    "affectedRows": 1,
+                    "insertId": 8,
+                    "serverStatus": 2,
+                    "warningCount": 0,
+                    "message": "",
+                    "protocol41": true,
+                    "changedRows": 0
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/404Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/500Error"
+          }
+        }
+      }
+    },
+    "/users/update_user": {
+      "patch": {
+        "tags": ["Users"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "operationId": "updateUser",
+        "description": "Update User",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/user"
+              },
+              "example": {
+                "user_id": 1,
+                "full_name": "Courtney Daugherty",
+                "email": "Gloria_Frami98@hotmail.com",
+                "password": "$2b$10$rk0wvwEt.DK/.WQcG9CTMeMzjhWWk2a5SfAAaK95gunp.7xII301q",
+                "is_admin": 2
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/user"
+              },
+              "example": {
+                "user_id": 1,
+                "full_name": "Courtney Daugherty",
+                "email": "Gloria_Frami98@hotmail.com",
+                "password": "$2b$10$rk0wvwEt.DK/.WQcG9CTMeMzjhWWk2a5SfAAaK95gunp.7xII301q",
+                "is_admin": 2
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfull operation",
+            "content": {
+              "application/json": {
+                "example": {
+                  "success": true,
+                  "message": "Successfully added new user",
+                  "data": {
+                    "fieldCount": 0,
+                    "affectedRows": 1,
+                    "insertId": 8,
+                    "serverStatus": 2,
+                    "warningCount": 0,
+                    "message": "",
+                    "protocol41": true,
+                    "changedRows": 1
+                  }
+                }
+              },
+              "application/xml": {
+                "example": {
+                  "success": true,
+                  "message": "Successfully added new user",
+                  "data": {
+                    "fieldCount": 0,
+                    "affectedRows": 1,
+                    "insertId": 8,
+                    "serverStatus": 2,
+                    "warningCount": 0,
+                    "message": "",
+                    "protocol41": true,
+                    "changedRows": 1
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/404Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/409Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/500Error"
+          }
+        }
+      }
+    },
+    "/users/delete_user": {
+      "patch": {
+        "tags": ["Users"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "operationId": "deleteUser",
+        "description": "Delete User",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "header",
+            "description": "iser id to delete",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull operation",
+            "content": {
+              "application/json": {
+                "example": {
+                  "success": true,
+                  "message": "User deleted successfully"
+                }
+              },
+              "application/xml": {
+                "example": {
+                  "success": true,
+                  "message": "User deleted successfully"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/404Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/409Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/500Error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BasicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      },
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "responses": {
+      "401Error": {
+        "description": "No token provided",
+        "content": {
+          "application/json": {
+            "example": {
+              "success": false,
+              "message": "Unauthorized! Please provide token"
+            }
+          },
+          "application/xml": {
+            "example": {
+              "success": false,
+              "message": "Unauthorized! Please provide token"
+            }
+          }
+        }
+      },
+      "403Error": {
+        "description": "Invalid or expired token",
+        "content": {
+          "application/json": {
+            "example": {
+              "success": false,
+              "message": "Invalid or expired token"
+            }
+          },
+          "application/xml": {
+            "example": {
+              "success": false,
+              "message": "Invalid or expired token"
+            }
+          }
+        }
+      },
+      "404Error": {
+        "description": "Record not found",
+        "content": {
+          "application/json": {
+            "example": {
+              "success": false,
+              "message": "Record not found"
+            }
+          },
+          "application/xml": {
+            "example": {
+              "success": false,
+              "message": "Record not found"
+            }
+          }
+        }
+      },
+      "409Error": {
+        "description": "Failed to update User",
+        "content": {
+          "application/json": {
+            "example": {
+              "success": false,
+              "message": "Failed to update User"
+            }
+          },
+          "application/xml": {
+            "example": {
+              "success": false,
+              "message": "Failed to update User"
+            }
+          }
+        }
+      },
+      "500Error": {
+        "description": "Database connection error",
+        "content": {
+          "application/json": {
+            "example": {
+              "success": false,
+              "message": "Database connection error"
+            }
+          },
+          "application/xml": {
+            "example": {
+              "success": false,
+              "message": "Database connection error"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "user": {
+        "type": "object",
+        "properties": {
+          "user_ud": {
+            "type": "integer"
+          },
+          "full_name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "is_admin": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  }
+}

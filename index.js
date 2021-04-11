@@ -4,6 +4,7 @@ const app = express();
 const userRouter = require("./api/users/user.router");
 const questionRouter = require("./api/questions/question.router");
 const fs = require("fs");
+const swaggerUi = require("swagger-ui-express");
 
 // server settings
 const port = process.env.PORT || 7000;
@@ -31,6 +32,11 @@ app.use("/api/users", userRouter);
 
 // all questions end points
 app.use("/api/questions", questionRouter);
+
+// create swagger documentation
+const yaml = require("yamljs");
+const openApiDocumentation = yaml.load("./swagger/swagger.yaml");
+app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(openApiDocumentation));
 
 // start the server
 app.listen(port, (error) => {
