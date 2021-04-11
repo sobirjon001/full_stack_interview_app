@@ -17,6 +17,9 @@ app.use(
   })
 );
 
+// open web_based application
+app.use(express.static("./html"));
+
 // sanity check
 app.get("/api/hello", (req, res) => {
   res.status(200);
