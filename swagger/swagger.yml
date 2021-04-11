@@ -7,15 +7,12 @@ info:
     base API server on port 7000, mysql on port 3306, phpmyadmin on port 7001,
     swagger based UI documentation on port 8000. Enjoy!
   version: 1.0.0
-  termsOfService: 'http://swagger.io/terms/'
+  termsOfService: "http://swagger.io/terms/"
   license:
     name: Apache 2.0
-    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
-  contact:
-    name: Sobirdzhon
-    email: sobirjon001@gmail.com
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
 servers:
-  - url: 'http://localhost:7000/api'
+  - url: "http://localhost:7000/api"
 paths:
   /hello:
     get:
@@ -24,7 +21,7 @@ paths:
       operationId: sanityCheck
       description: Test if API server is up and running
       responses:
-        '200':
+        "200":
           description: Successfull operation
           content:
             application/json:
@@ -38,9 +35,9 @@ paths:
       security:
         - BasicAuth: []
       operationId: getToken
-      description: 'Login with email and password and get token, which is active for 1h'
+      description: "Login with email and password and get token, which is active for 1h"
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/json:
@@ -49,15 +46,15 @@ paths:
                 message: Login successfull
                 token: >-
                   eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXN1bHQiOnsidXNlcl9pZCI6NCwiZnVsbF9uYW1lIjoiQWRtaW4gQWRtaW4iLCJlbWFpbCI6ImFkbWluQGN5YmVydGVjay5jb20iLCJpc19hZG1pbiI6MX0sImlhdCI6MTYxNzg1NjE5MiwiZXhwIjoxNjE3ODU5NzkyfQ.oB07aI7YNJkejZKi3JwTPXBxNWsebrO5xqhrRl0u86s
-        '401':
+        "401":
           description: Invalid email or password
           content:
             application/json:
               example:
                 success: false
                 message: Invalid email or password
-        '500':
-          $ref: '#/components/responses/500Error'
+        "500":
+          $ref: "#/components/responses/500Error"
   /users/decode:
     post:
       tags:
@@ -67,7 +64,7 @@ paths:
       operationId: decode
       description: Get user information based on provided token
       responses:
-        '200':
+        "200":
           description: Successfull operation
           content:
             application/json:
@@ -78,9 +75,9 @@ paths:
                   user_id: 1
                   full_name: Admin Admin
                   email: admin@cybertek.com
-                  is_admin: 'true'
-        '403':
-          $ref: '#/components/responses/403Error'
+                  is_admin: "true"
+        "403":
+          $ref: "#/components/responses/403Error"
   /users:
     get:
       tags:
@@ -90,7 +87,7 @@ paths:
       operationId: getAllUsers
       description: Get all users
       responses:
-        '200':
+        "200":
           description: Successfull operation
           content:
             application/json:
@@ -141,14 +138,14 @@ paths:
                     password: >-
                       $2b$10$YkvstlXye94Spz6WMTDjS.nteHSTgtFp0v.HM/m.uKdBvcu/6Dw1e
                     is_admin: 0
-        '401':
-          $ref: '#/components/responses/401Error'
-        '403':
-          $ref: '#/components/responses/403Error'
-        '404':
-          $ref: '#/components/responses/404Error'
-        '500':
-          $ref: '#/components/responses/500Error'
+        "401":
+          $ref: "#/components/responses/401Error"
+        "403":
+          $ref: "#/components/responses/403Error"
+        "404":
+          $ref: "#/components/responses/404Error"
+        "500":
+          $ref: "#/components/responses/500Error"
   /users/{id}:
     get:
       tags:
@@ -157,7 +154,7 @@ paths:
         - BearerAuth: []
       operationId: getUserById
       description: Get user by id
-      parameters: 
+      parameters:
         - name: id
           in: path
           description: user id
@@ -165,7 +162,7 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: Successfull operation
           content:
             application/json:
@@ -190,14 +187,14 @@ paths:
                     password: >-
                       $2b$10$rk0wvwEt.DK/.WQcG9CTMeMzjhWWk2a5SfAAaK95gunp.7xII301q
                     is_admin: 2
-        '401':
-          $ref: '#/components/responses/401Error'
-        '403':
-          $ref: '#/components/responses/403Error'
-        '404':
-          $ref: '#/components/responses/404Error'
-        '500':
-          $ref: '#/components/responses/500Error'
+        "401":
+          $ref: "#/components/responses/401Error"
+        "403":
+          $ref: "#/components/responses/403Error"
+        "404":
+          $ref: "#/components/responses/404Error"
+        "500":
+          $ref: "#/components/responses/500Error"
   /users/create_user:
     post:
       tags:
@@ -210,12 +207,24 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/user'
+              $ref: "#/components/schemas/user"
+            example:
+              user_id: 1
+              full_name: Courtney Daugherty
+              email: Gloria_Frami98@hotmail.com
+              password: $2b$10$rk0wvwEt.DK/.WQcG9CTMeMzjhWWk2a5SfAAaK95gunp.7xII301q
+              is_admin: 2
           application/xml:
             schema:
-              $ref: '#/components/schemas/user'
+              $ref: "#/components/schemas/user"
+            example:
+              user_id: 1
+              full_name: Courtney Daugherty
+              email: Gloria_Frami98@hotmail.com
+              password: $2b$10$rk0wvwEt.DK/.WQcG9CTMeMzjhWWk2a5SfAAaK95gunp.7xII301q
+              is_admin: 2
       responses:
-        '200':
+        "200":
           description: Successfull operation
           content:
             application/json:
@@ -228,7 +237,7 @@ paths:
                   insertId: 8
                   serverStatus: 2
                   warningCount: 0
-                  message: ''
+                  message: ""
                   protocol41: true
                   changedRows: 0
             application/xml:
@@ -241,20 +250,20 @@ paths:
                   insertId: 8
                   serverStatus: 2
                   warningCount: 0
-                  message: ''
+                  message: ""
                   protocol41: true
                   changedRows: 0
-        '401':
-          $ref: '#/components/responses/401Error'
-        '403':
-          $ref: '#/components/responses/403Error'
-        '404':
-          $ref: '#/components/responses/404Error'
-        '500':
-          $ref: '#/components/responses/500Error'
+        "401":
+          $ref: "#/components/responses/401Error"
+        "403":
+          $ref: "#/components/responses/403Error"
+        "404":
+          $ref: "#/components/responses/404Error"
+        "500":
+          $ref: "#/components/responses/500Error"
   /users/update_user:
     patch:
-      tags: 
+      tags:
         - Users
       security:
         - BearerAuth: []
@@ -264,12 +273,24 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/user'
+              $ref: "#/components/schemas/user"
+            example:
+              user_id: 1
+              full_name: Courtney Daugherty
+              email: Gloria_Frami98@hotmail.com
+              password: $2b$10$rk0wvwEt.DK/.WQcG9CTMeMzjhWWk2a5SfAAaK95gunp.7xII301q
+              is_admin: 2
           application/xml:
             schema:
-              $ref: '#/components/schemas/user'
+              $ref: "#/components/schemas/user"
+            example:
+              user_id: 1
+              full_name: Courtney Daugherty
+              email: Gloria_Frami98@hotmail.com
+              password: $2b$10$rk0wvwEt.DK/.WQcG9CTMeMzjhWWk2a5SfAAaK95gunp.7xII301q
+              is_admin: 2
       responses:
-        '200':
+        "200":
           description: Successfull operation
           content:
             application/json:
@@ -282,7 +303,7 @@ paths:
                   insertId: 8
                   serverStatus: 2
                   warningCount: 0
-                  message: ''
+                  message: ""
                   protocol41: true
                   changedRows: 1
             application/xml:
@@ -295,28 +316,28 @@ paths:
                   insertId: 8
                   serverStatus: 2
                   warningCount: 0
-                  message: ''
+                  message: ""
                   protocol41: true
                   changedRows: 1
-        '401':
-          $ref: '#/components/responses/401Error'
-        '403':
-          $ref: '#/components/responses/403Error'
-        '404':
-          $ref: '#/components/responses/404Error'
-        '409':
-          $ref: '#/components/responses/409Error'
-        '500':
-          $ref: '#/components/responses/500Error'
+        "401":
+          $ref: "#/components/responses/401Error"
+        "403":
+          $ref: "#/components/responses/403Error"
+        "404":
+          $ref: "#/components/responses/404Error"
+        "409":
+          $ref: "#/components/responses/409Error"
+        "500":
+          $ref: "#/components/responses/500Error"
   /users/delete_user:
     patch:
-      tags: 
+      tags:
         - Users
       security:
         - BearerAuth: []
       operationId: deleteUser
       description: Delete User
-      parameters: 
+      parameters:
         - name: id
           in: header
           description: iser id to delete
@@ -324,7 +345,7 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: Successfull operation
           content:
             application/json:
@@ -335,16 +356,17 @@ paths:
               example:
                 success: true
                 message: User deleted successfully
-        '401':
-          $ref: '#/components/responses/401Error'
-        '403':
-          $ref: '#/components/responses/403Error'
-        '404':
-          $ref: '#/components/responses/404Error'
-        '409':
-          $ref: '#/components/responses/409Error'
-        '500':
-          $ref: '#/components/responses/500Error'    
+        "401":
+          $ref: "#/components/responses/401Error"
+        "403":
+          $ref: "#/components/responses/403Error"
+        "404":
+          $ref: "#/components/responses/404Error"
+        "409":
+          $ref: "#/components/responses/409Error"
+        "500":
+          $ref: "#/components/responses/500Error"
+
 components:
   securitySchemes:
     BasicAuth:
@@ -411,16 +433,15 @@ components:
             message: Database connection error
   schemas:
     user:
-      description: User sample
-      example: 
-        user_id: 1
-        full_name: Courtney Daugherty
-        email: Gloria_Frami98@hotmail.com
-        password: $2b$10$rk0wvwEt.DK/.WQcG9CTMeMzjhWWk2a5SfAAaK95gunp.7xII301q
-        is_admin: 2
-      
-
-          
-            
-    
-    
+      type: object
+      properties:
+        user_ud:
+          type: integer
+        full_name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        is_admin:
+          type: integer
