@@ -12,26 +12,33 @@
       <div id="login-container-inner">
         <div id="login-menue">
           <div class="login-menue-items">
-            <span id="login" class="login-menue-item">login</span>
+            <span id="login-link" class="login-menue-item">login</span>
             <span> | </span>
-            <span id="sign-up" class="login-menue-item">sign up</span>
+            <span id="sign-up-link" class="login-menue-item">sign up</span>
           </div>
         </div>
         <form id="login-form" class="form">
-          <span id="alert-invalid-credentials" class="alert-message hidden"
+          <span id="login-message">Login to existing account</span>
+          <span id="login-alert" class="alert-message hidden"
             >Invalid email or password!</span
           >
           <input
             type="text"
+            id="input-fullname"
+            class="input hidden"
+            placeholder="Full name"
+          />
+          <input
+            type="text"
             name="email"
-            id="input-login-email"
+            id="input-email"
             class="input"
             placeholder="Email"
           />
           <input
             type="text"
             name="password"
-            id="input-login-password"
+            id="input-password"
             class="input"
             placeholder="Password"
           />

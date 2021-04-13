@@ -35,6 +35,12 @@ module.exports = {
     });
   },
   getUsers: (req, res) => {
+    if (!req.decodedUser.result.is_admin) {
+      return res.status(403).json({
+        success: false,
+        message: "Unuthorised! Must have administrative account",
+      });
+    }
     getUsers((err, results) => {
       if (err) {
         console.log(err);
@@ -130,6 +136,7 @@ module.exports = {
   },
   login: (req, res) => {
     const body = req.body;
+    console.log(body);
     getUserByEmail(body.email, (err, results) => {
       if (err) {
         console.log(err);
@@ -148,12 +155,13 @@ module.exports = {
       if (result) {
         results.password = undefined;
         const jsontoken = sign({ result: results }, secretKey, {
-          expiresIn: "1h",
+          expiresIn: "4h",
         });
         return res.status(200).json({
           success: true,
           message: "Login successfull",
           token: jsontoken,
+          is_admin: results.is_admin,
         });
       } else {
         return res.status(401).json({
@@ -169,5 +177,14 @@ module.exports = {
       message: "Decode successfull",
       data: req.decodedUser.result,
     });
+  },
+  isAdminChek: (req, res, next) => {
+    if (!req.decodedUser.is_admin) {
+      return res.status(403).json({
+        success: false,
+        message: "You are not authorized to create account",
+      });
+    }
+    next();
   },
 };
