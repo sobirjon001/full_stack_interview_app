@@ -1,5 +1,5 @@
 // import libraries
-const pool = require("../../database/database");
+const pool = require("../database/database");
 
 module.exports = {
   createUser: (data, callback) => {

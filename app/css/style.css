@@ -85,3 +85,63 @@ body {
 .hidden {
   display: none;
 }
+
+/* admin page */
+#admin-container-outer {
+  width: 1024px;
+  height: 100vh;
+  margin: auto;
+  background-color: rgb(235, 235, 235);
+  display: flex;
+}
+
+#admin-container-inner {
+  width: 800px;
+  height: 90vh;
+  margin: auto;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid black;
+  box-shadow: 0px 0px 20px grey;
+}
+
+#nav-bar {
+  width: auto;
+  height: 30px;
+  padding: 0px 10px;
+  display: flexbox;
+}
+
+.module-link.left {
+  float: left;
+  margin: auto 10px;
+}
+
+.module-link.right {
+  float: right;
+  margin: auto 0px auto 10px;
+}
+
+/* .module-link a {
+  text-decoration: none;
+  color: grey;
+} */
+
+.module-link {
+  text-decoration: none;
+  cursor: pointer;
+  height: fit-content;
+  padding: 3px;
+  color: grey;
+  transition: 1s;
+}
+
+.module-link:hover {
+  border-bottom: 1px solid black;
+  color: black;
+}
+
+.active-link {
+  border-bottom: 1px solid black;
+  color: black;
+}

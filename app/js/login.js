@@ -70,13 +70,11 @@ function login() {
         token = data.token;
         is_admin = data.is_admin;
         if (is_admin === 1) {
-          //document.location = "adminPage.html";
-          console.log(is_admin);
-          console.log("getting admin page");
+          sessionStorage.setItem("token", token);
+          window.open("./html/admin.html");
         } else {
-          //document.location = "userPage.html";
-          console.log(is_admin);
-          console.log("getting to user page");
+          sessionStorage.setItem("token", token);
+          window.open("./html/user.html");
         }
       }
       if (response.status === 401) {

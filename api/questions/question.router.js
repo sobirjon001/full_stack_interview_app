@@ -1,6 +1,6 @@
 // import libraries
 const router = require("express").Router();
-const { checkToken } = require("../../auth/token_validation");
+const { checkToken } = require("../auth/token_validation");
 const {
   getQuestions,
   getSubjects,

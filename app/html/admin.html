@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <title>Administrative page</title>
+  </head>
+  <body>
+    <div id="admin-container-outer">
+      <div id="admin-container-inner">
+        <div id="nav-bar">
+          <span id="users-module-link" class="module-link left active-link">
+            Users
+          </span>
+          <span id="questions-module-link" class="module-link left">
+            Questions
+          </span>
+          <a href="/app/index.html">
+            <span id="nav-log-out" class="module-link right">Log out</span>
+          </a>
+          <span id="nav-user-name" class="module-link right">
+            Welcome frend
+          </span>
+        </div>
+        <div id="users-module-container" class="module">User modules here</div>
+        <div id="questions-module-container" class="module hidden">
+          Question modules here
+        </div>
+      </div>
+    </div>
+    <script src="../js/admin.js"></script>
+  </body>
+</html>

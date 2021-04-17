@@ -18,7 +18,7 @@ app.use(
 );
 
 // open web_based application
-app.use(express.static("./html"));
+app.use("/app", express.static("./app"));
 
 // sanity check
 app.get("/api/hello", (req, res) => {
@@ -38,7 +38,7 @@ app.use("/api/questions", questionRouter);
 
 // create swagger documentation
 const yaml = require("yamljs");
-const openApiDocumentation = yaml.load("./swagger/swagger.yaml");
+const openApiDocumentation = yaml.load("./api/swagger/swagger.yaml");
 app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(openApiDocumentation));
 
 // start the server
