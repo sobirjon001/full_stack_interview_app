@@ -14,7 +14,6 @@ module.exports = {
         message: "Unauthorized! Please provide token",
       });
     }
-    console.log(token);
     verify(token, secretKey, (err, decodedUser) => {
       if (err) {
         return res.status(403).json({

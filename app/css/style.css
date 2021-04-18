@@ -145,3 +145,44 @@ body {
   border-bottom: 1px solid black;
   color: black;
 }
+
+#table-container {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+}
+
+#table-navigation {
+  width: 97%;
+  height: 30px;
+  display: inline-flex;
+}
+
+#query-items {
+  float: left;
+  width: fit-content;
+  height: fit-content;
+  margin: auto 5px;
+  display: inline-flex;
+}
+
+.query-item {
+  width: fit-content;
+  height: fit-content;
+  margin: auto 10px;
+}
+
+#pages {
+  float: right;
+  margin: auto 5px auto auto;
+}
+
+#users-table {
+  width: 97%;
+}
+
+table,
+th,
+td {
+  border: 1px solid black;
+}

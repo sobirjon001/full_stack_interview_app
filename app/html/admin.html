@@ -24,7 +24,73 @@
             Welcome frend
           </span>
         </div>
-        <div id="users-module-container" class="module">User modules here</div>
+        <div id="users-module-container" class="module">
+          <div id="table-container">
+            <div id="table-navigation">
+              <div id="query-items">
+                <select
+                  name="sort admin status"
+                  id="#select-isAdmin"
+                  class="query-item"
+                >
+                  <option value="All">All</option>
+                  <option value="Admin">Admin</option>
+                  <option value="User">User</option>
+                </select>
+                <div id="search-container" class="query-item">
+                  <input
+                    type="text"
+                    id="input-search-name"
+                    placeholder="Search by name"
+                  />
+                  <button id="button-search-name">ok</button>
+                </div>
+              </div>
+              <div id="pages">
+                <button class="table-page-button">1</button>
+                <button class="table-page-button">2</button>
+                <button class="table-page-button">3</button>
+                <button class="table-page-button">4</button>
+                <button class="table-page-button">5</button>
+                <span>. . .</span>
+                <button class="table-page-button">90</button>
+              </div>
+            </div>
+            <table id="users-table">
+              <thead>
+                <tr>
+                  <th>Action</th>
+                  <th>ID</th>
+                  <th>Full Name</th>
+                  <th>Email</th>
+                  <th>Admin</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <button class="row-action-delete">Delete</button>
+                    <button class="row-action-update">Update</button>
+                  </td>
+                  <td>12</td>
+                  <td>Anvar Smith</td>
+                  <td>example@example.com</td>
+                  <td>true</td>
+                </tr>
+                <tr>
+                  <td>
+                    <button class="row-action-delete">Delete</button>
+                    <button class="row-action-update">Update</button>
+                  </td>
+                  <td>12</td>
+                  <td>Anvar Smith</td>
+                  <td>example@example.com</td>
+                  <td>true</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
         <div id="questions-module-container" class="module hidden">
           Question modules here
         </div>
