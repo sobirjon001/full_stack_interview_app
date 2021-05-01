@@ -1,10 +1,14 @@
 // import librarie
 const express = require("express");
 const app = express();
+const initialise = require("./api/database/firstBootInitialize");
 const userRouter = require("./api/users/user.router");
 const questionRouter = require("./api/questions/question.router");
 const fs = require("fs");
 const swaggerUi = require("swagger-ui-express");
+
+// first initialisation
+initialise();
 
 // server settings
 const port = process.env.PORT || 7000;

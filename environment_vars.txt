@@ -1,0 +1,4 @@
+PORT || 7000
+ADMIN_EMAIL || "admin@cybertek.com"
+ADMIN_PASSWORD || "cyberteck"
+SECRET_KEY || "abc1234"

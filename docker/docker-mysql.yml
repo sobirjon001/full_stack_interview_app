@@ -9,7 +9,7 @@ services:
       - MYSQL_PASSWORD=cybertek
       - MYSQL_DATABASE=node_db
     volumes:
-      - mysql:/var/lib/mysql
+      - ./mysql:/var/lib/mysql
     ports:
       - "3306:3306"
   phpmyadmin:
@@ -21,9 +21,9 @@ services:
       - PMA_HOST=interview-mysql-app
       - PMA_PORT= 3306
     volumes:
-      - phpmyadmin:/sessions
+      - ./phpmyadmin:/sessions
     ports:
       - "7001:80"
-volumes:
-  phpmyadmin:
-  mysql:
+# volumes:
+#   phpmyadmin:
+#   mysql:
