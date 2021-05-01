@@ -178,7 +178,7 @@ module.exports = {
     });
   },
   isAdminChek: (req, res, next) => {
-    if (!req.decodedUser.is_admin) {
+    if (req.decodedUser.result.is_admin != 1) {
       return res.status(403).json({
         success: false,
         message: "You are not authorized to create account",
