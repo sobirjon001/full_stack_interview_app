@@ -1,10 +1,14 @@
 // import libraries
 const pool = require("./database");
+const { genSaltSync, hashSync } = require("bcrypt");
 const { createUser } = require("../users/user.service");
+
+// global variables
+const salt = genSaltSync(10);
 
 // admin values
 const adminEmail = process.env.ADMIN_EMAIL || "admin@cybertek.com";
-const adminPassword = process.env.ADMIN_PASSWORD || "cyberteck";
+const adminPassword = process.env.ADMIN_PASSWORD || "cybertek";
 
 // functions
 function checkSubjects(callback) {
@@ -35,6 +39,8 @@ function checkSubjects(callback) {
             console.log("Created subjects table successfully!");
           }
         );
+      } else {
+        console.log("Subjects table exists");
       }
       callback();
     }
@@ -72,6 +78,8 @@ function checkUsers(callback) {
             console.log("Successfully create usrs tabel!");
           }
         );
+      } else {
+        console.log("User table exists");
       }
       callback();
     }
@@ -94,10 +102,11 @@ function checkAdmin(callback) {
       }
       if (results[0].exist == 0) {
         console.log("Super Admin does not exist, creating ...");
+        let adminHashPassword = hashSync(adminPassword, salt);
         let data = {
           full_name: "Super Admin",
           email: adminEmail,
-          password: adminPassword,
+          password: adminHashPassword,
           is_admin: true,
         };
         createUser(data, (err, res) => {
@@ -109,6 +118,10 @@ function checkAdmin(callback) {
           }
           console.log("Successfully created Super User!");
         });
+      } else {
+        console.log("Super Admin exists, please login as:");
+        console.log("email    : " + adminEmail);
+        console.log("password : " + adminPassword);
       }
       callback();
     }
@@ -150,6 +163,8 @@ function checkQuestions() {
             console.log("Successfully created question table!");
           }
         );
+      } else {
+        console.log("Questions table exists");
       }
     }
   );
