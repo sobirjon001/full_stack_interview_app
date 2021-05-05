@@ -7,8 +7,8 @@ const { createUser } = require("../users/user.service");
 const salt = genSaltSync(10);
 
 // admin values
-const adminEmail = process.env.ADMIN_EMAIL || "admin@cybertek.com";
-const adminPassword = process.env.ADMIN_PASSWORD || "cybertek";
+const adminEmail = process.env.ADMIN_EMAIL || "admin@cambridge.com";
+const adminPassword = process.env.ADMIN_PASSWORD || "cambridge";
 
 // functions
 function checkSubjects(callback) {
