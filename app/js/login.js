@@ -71,10 +71,10 @@ function login() {
         is_admin = data.is_admin;
         if (is_admin === 1) {
           sessionStorage.setItem("token", token);
-          window.open("./html/admin.html");
+          location.replace("./html/admin.html");
         } else {
           sessionStorage.setItem("token", token);
-          window.open("./html/user.html");
+          location.replace("./html/user.html");
         }
       }
       if (response.status === 401) {
