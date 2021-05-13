@@ -95,10 +95,10 @@ function signUp() {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     body: new URLSearchParams({
-      full_name: inputFullname,
+      full_name: inputFullname.value,
       email: inputEmail.value,
       password: inputPassword.value,
-      is_admin: false,
+      is_admin: 0,
     }),
   })
     .then((response) => {
