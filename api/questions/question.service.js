@@ -56,27 +56,13 @@ module.exports = {
   },
   createSubject: (subject, callback) => {
     pool.query(
-      `select subject_name from subjects where subject_name = ?`,
+      `insert into subjects (subject_name) values (?)`,
       [subject],
-      (error1, results1, fields1) => {
-        console.log("this is result from select querry");
-        console.log(results1);
-        if (error1) {
-          return callback(error1);
+      (error2, results2, fields2) => {
+        if (error2) {
+          return callback(error2);
         }
-        if (results1.length > 0) {
-          return callback(null, "duplicate");
-        }
-        pool.query(
-          `insert into subjects (subject_name) values (?)`,
-          [subject],
-          (error2, results2, fields2) => {
-            if (error2) {
-              return callback(error2);
-            }
-            return callback(null, results2);
-          }
-        );
+        return callback(null, results2);
       }
     );
   },

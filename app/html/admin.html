@@ -24,13 +24,14 @@
             Welcome frend
           </span>
         </div>
+        <!-- users module -->
         <div id="users-module-container" class="module">
-          <div id="table-container">
-            <div id="table-navigation">
-              <div id="query-items">
+          <div class="table-container">
+            <div class="table-navigation">
+              <div class="query-items">
                 <select
                   name="sort admin status"
-                  id="#select-isAdmin"
+                  id="select-isAdmin"
                   class="query-item"
                 >
                   <option value="All">All</option>
@@ -45,6 +46,10 @@
                   />
                   <button id="button-search-name">ok</button>
                 </div>
+                <div id="add-user" class="query-item">
+                  <button id="button-add-user">Add new User</button>
+                </div>
+                <span id="users-count"></span>
               </div>
               <div id="pages">
                 <button class="table-page-button">1</button>
@@ -66,33 +71,210 @@
                   <th>Admin</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <button class="row-action-delete">Delete</button>
-                    <button class="row-action-update">Update</button>
-                  </td>
-                  <td>12</td>
-                  <td>Anvar Smith</td>
-                  <td>example@example.com</td>
-                  <td>true</td>
-                </tr>
-                <tr>
-                  <td>
-                    <button class="row-action-delete">Delete</button>
-                    <button class="row-action-update">Update</button>
-                  </td>
-                  <td>12</td>
-                  <td>Anvar Smith</td>
-                  <td>example@example.com</td>
-                  <td>true</td>
-                </tr>
-              </tbody>
+              <tbody></tbody>
             </table>
           </div>
         </div>
+        <!-- questions module -->
         <div id="questions-module-container" class="module hidden">
-          Question modules here
+          <div class="table-container">
+            <div class="table-navigation">
+              <div class="query-items">
+                <select
+                  name="sort-by-subject"
+                  id="select-subject"
+                  class="query-item"
+                >
+                  <option value="All">All</option>
+                  <option value="Admin">Admin</option>
+                  <option value="User">User</option>
+                </select>
+                <div id="add-subjects" class="query-item">
+                  <button id="button-add-subject">Add Subjects</button>
+                  <button id="button-add-questions">Add questions</button>
+                </div>
+                <span id="subjects-count"></span>
+                <span id="questions-count"></span>
+              </div>
+              <div id="pages">
+                <button class="table-page-button">1</button>
+                <button class="table-page-button">2</button>
+                <button class="table-page-button">3</button>
+                <button class="table-page-button">4</button>
+                <button class="table-page-button">5</button>
+                <span>. . .</span>
+                <button class="table-page-button">90</button>
+              </div>
+            </div>
+            <div id="two-tables-container">
+              <table id="subjects-table">
+                <thead>
+                  <tr>
+                    <th>ID Subjects</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+              <table id="questions-table">
+                <thead>
+                  <tr>
+                    <th>ID time Questions Solutions</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- add new user container -->
+    <div id="add-new-user-container" class="popup-form hidden">
+      <div class="user-form-inner">
+        <span id="input-new-user-exist-alert" class="alert-message hidden">
+          Account with given email already exist!<br />
+          Please use different email address.
+        </span>
+        <select
+          id="input-new-user-select-isadmin"
+          name="select_isadmin"
+          class="user-form-input"
+        >
+          <option value="0">User</option>
+          <option value="1">Admin</option>
+        </select>
+        <input
+          id="input-new-user-full-name"
+          type="text"
+          name="full_name"
+          placeholder="Full Name"
+          class="user-form-input"
+        />
+        <span id="input-new-user-full-name-alert" class="alert-message hidden">
+          Invalid full name! example: 'John Smith'
+        </span>
+        <input
+          id="input-new-user-email"
+          type="email"
+          name="email"
+          placeholder="Email"
+          class="user-form-input"
+        />
+        <span id="input-new-user-email-alert" class="alert-message hidden">
+          Invalid email! example: 'example@example.com'
+        </span>
+        <input
+          id="input-new-user-password"
+          type="password"
+          name="password"
+          placeholder="Password"
+          class="user-form-input"
+        />
+        <span id="input-new-user-password-alert" class="alert-message hidden">
+          Invalid password! At least: 8 characters, one digit<br />one upper
+          case letter , one lower case letter<br />one special character
+          !#@^*-$%&?"
+        </span>
+        <div class="form-buttons">
+          <button id="button-add-new-user" class="add-new-user-button">
+            Add new User
+          </button>
+          <button id="button-add-new-user-cancel" class="add-new-user-button">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- update user container -->
+    <div id="update-user-container" class="popup-form hidden">
+      <div class="user-form-inner">
+        <span id="input-update-user-exist-alert" class="alert-message hidden">
+          Account with given email already exist!<br />
+          Please use different email address.
+        </span>
+        <span id="user-id" class="hidden"></span>
+        <select
+          id="input-update-user-select-isadmin"
+          name="select_isadmin"
+          class="user-form-input"
+        >
+          <option value="0">User</option>
+          <option value="1">Admin</option>
+        </select>
+        <input
+          id="input-update-user-full-name"
+          type="text"
+          name="full_name"
+          placeholder="Full Name"
+          class="user-form-input"
+        />
+        <span
+          id="input-update-user-full-name-alert"
+          class="alert-message hidden"
+        >
+          Invalid full name! example: 'John Smith'
+        </span>
+        <input
+          id="input-update-user-email"
+          type="email"
+          name="email"
+          placeholder="Email"
+          class="user-form-input"
+        />
+        <span id="input-update-user-email-alert" class="alert-message hidden">
+          Invalid email! example: 'example@example.com'
+        </span>
+        <input
+          id="input-update-user-password"
+          type="password"
+          name="password"
+          placeholder="Password"
+          class="user-form-input"
+        />
+        <span
+          id="input-update-user-password-alert"
+          class="alert-message hidden"
+        >
+          Invalid password! At least: 8 characters, one digit<br />one upper
+          case letter , one lower case letter<br />one special character
+          !#@^*-$%&?"
+        </span>
+        <div class="form-buttons">
+          <button id="button-update-user" class="add-new-user-button">
+            Update User
+          </button>
+          <button id="button-update-user-cancel" class="add-new-user-button">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- add new subject container -->
+    <div id="add-new-subject-container" class="popup-form hidden">
+      <div class="user-form-inner">
+        <span id="input-new-subject-exist-alert" class="alert-message hidden">
+          Given Subject already exist!<br />
+          Please use different Subject name.
+        </span>
+        <input
+          id="input-new-subject"
+          type="text"
+          name="subject_name"
+          placeholder="Subject Name"
+          class="user-form-input"
+        />
+        <div class="form-buttons">
+          <button id="button-add-new-subject" class="add-new-user-button">
+            Add new Subject
+          </button>
+          <button
+            id="button-add-new-subject-cancel"
+            class="add-new-user-button"
+          >
+            Cancel
+          </button>
         </div>
       </div>
     </div>

@@ -14,6 +14,9 @@ const { sign } = require("jsonwebtoken");
 // encription options
 const secretKey = process.env.SECRET_KEY || "abc1234";
 
+// admin options
+const adminEmail = process.env.ADMIN_EMAIL || "admin@cambridge.com";
+
 // controllers
 module.exports = {
   createUser: (req, res) => {
@@ -22,6 +25,12 @@ module.exports = {
     createUser(body, (err, results) => {
       if (err) {
         console.log(err);
+        if (err.code == "ER_DUP_ENTRY") {
+          return res.status(409).json({
+            success: false,
+            message: err.sqlMessage,
+          });
+        }
         return res.status(500).json({
           success: false,
           message: "Database connection error",
@@ -59,7 +68,7 @@ module.exports = {
       return res.status(200).json({
         success: true,
         message: "These are all users",
-        "users count": count,
+        users_count: count,
         data: results,
       });
     });
@@ -89,10 +98,17 @@ module.exports = {
   },
   updateUser: (req, res) => {
     const body = req.body;
+    console.log(body);
     body.password = hashSync(body.password, salt);
     updateUser(body, (err, results) => {
       if (err) {
         console.log(err);
+        if (err.code == "ER_DUP_ENTRY") {
+          return res.status(409).json({
+            success: false,
+            message: err.sqlMessage,
+          });
+        }
         return res.status(500).json({
           success: false,
           message: "Database connection error",
@@ -185,5 +201,30 @@ module.exports = {
       });
     }
     next();
+  },
+  allowedToModifyUser: (req, res, next) => {
+    const id = req.headers.user_id;
+    getUserByUserId(id, (err, results) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          success: false,
+          message: "Database connection error",
+        });
+      }
+      if (!results) {
+        return res.status(404).json({
+          success: false,
+          message: "Record not found",
+        });
+      }
+      if (results.email == adminEmail) {
+        return res.status(403).json({
+          success: false,
+          message: "Deleting or modifying Super Admin is Prohibited!",
+        });
+      }
+      next();
+    });
   },
 };

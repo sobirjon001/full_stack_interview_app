@@ -191,15 +191,15 @@ module.exports = {
     createSubject(subject, (err, results) => {
       if (err) {
         console.log(err);
+        if (err.code == "ER_DUP_ENTRY") {
+          return res.status(409).json({
+            success: false,
+            message: err.sqlMessage,
+          });
+        }
         return res.status(500).json({
           success: false,
           message: "Database connection error",
-        });
-      }
-      if (results === "duplicate") {
-        return res.status(403).json({
-          success: false,
-          message: "Forbidden! This subject already exist",
         });
       }
       return res.status(200).json({

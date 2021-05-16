@@ -28,8 +28,9 @@ function checkSubjects(callback) {
         console.log("Subjects table does not not exist, creating ...");
         pool.query(
           `create table subjects (
-            subject_id int auto_increment primary key ,
-            subject_name varchar(255) not null
+            subject_id int auto_increment primary key,
+            subject_name varchar(255) not null unique,
+            subject_is_active boolean default false
           );`,
           [],
           (err, res, fiel) => {
@@ -66,7 +67,7 @@ function checkUsers(callback) {
           `create table users (
             user_id int auto_increment primary key ,
             full_name varchar(255),
-            email varchar(255),
+            email varchar(255) unique,
             password varchar(255),
             is_admin boolean default false
           );`,
