@@ -150,7 +150,7 @@ function checkQuestions() {
           `create table questions (
             question_id int auto_increment primary key ,
             subject_id int not null ,
-            question varchar(1024),
+            question varchar(1024) unique,
             solution varchar(1024),
             time int,
             foreign key (subject_id)

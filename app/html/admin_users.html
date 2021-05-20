@@ -5,26 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../css/style.css" />
-    <title>Administrative page</title>
+    <title>Administrative page | Users</title>
   </head>
   <body>
+    <!-- users module -->
     <div id="admin-container-outer">
       <div id="admin-container-inner">
         <div id="nav-bar">
-          <span id="users-module-link" class="module-link left active-link">
-            Users
-          </span>
-          <span id="questions-module-link" class="module-link left">
-            Questions
-          </span>
+          <span class="module-link left active-link"> Users </span>
+          <a href="/app/html/admin_questions.html">
+            <span class="module-link left"> Questions </span>
+          </a>
           <a href="/app/index.html">
-            <span id="nav-log-out" class="module-link right">Log out</span>
+            <span class="module-link right">Log out</span>
           </a>
           <span id="nav-user-name" class="module-link right">
             Welcome frend
           </span>
         </div>
-        <!-- users module -->
         <div id="users-module-container" class="module">
           <div class="table-container">
             <div class="table-navigation">
@@ -47,7 +45,12 @@
                   <button id="button-search-name">ok</button>
                 </div>
                 <div id="add-user" class="query-item">
-                  <button id="button-add-user">Add new User</button>
+                  <button
+                    id="button-add-user"
+                    onclick="JavaScript:openAddNewUserForm()"
+                  >
+                    Add new User
+                  </button>
                 </div>
                 <span id="users-count"></span>
               </div>
@@ -75,64 +78,11 @@
             </table>
           </div>
         </div>
-        <!-- questions module -->
-        <div id="questions-module-container" class="module hidden">
-          <div class="table-container">
-            <div class="table-navigation">
-              <div class="query-items">
-                <select
-                  name="sort-by-subject"
-                  id="select-subject"
-                  class="query-item"
-                >
-                  <option value="All">All</option>
-                  <option value="Admin">Admin</option>
-                  <option value="User">User</option>
-                </select>
-                <div id="add-subjects" class="query-item">
-                  <button id="button-add-subject">Add Subjects</button>
-                  <button id="button-add-questions">Add questions</button>
-                </div>
-                <span id="subjects-count"></span>
-                <span id="questions-count"></span>
-              </div>
-              <div id="pages">
-                <button class="table-page-button">1</button>
-                <button class="table-page-button">2</button>
-                <button class="table-page-button">3</button>
-                <button class="table-page-button">4</button>
-                <button class="table-page-button">5</button>
-                <span>. . .</span>
-                <button class="table-page-button">90</button>
-              </div>
-            </div>
-            <div id="two-tables-container">
-              <table id="subjects-table">
-                <thead>
-                  <tr>
-                    <th>ID Subjects</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-              <table id="questions-table">
-                <thead>
-                  <tr>
-                    <th>ID time Questions Solutions</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
     <!-- add new user container -->
     <div id="add-new-user-container" class="popup-form hidden">
-      <div class="user-form-inner">
+      <div class="form-inner">
         <span id="input-new-user-exist-alert" class="alert-message hidden">
           Account with given email already exist!<br />
           Please use different email address.
@@ -140,7 +90,7 @@
         <select
           id="input-new-user-select-isadmin"
           name="select_isadmin"
-          class="user-form-input"
+          class="form-input"
         >
           <option value="0">User</option>
           <option value="1">Admin</option>
@@ -150,7 +100,7 @@
           type="text"
           name="full_name"
           placeholder="Full Name"
-          class="user-form-input"
+          class="form-input"
         />
         <span id="input-new-user-full-name-alert" class="alert-message hidden">
           Invalid full name! example: 'John Smith'
@@ -160,7 +110,7 @@
           type="email"
           name="email"
           placeholder="Email"
-          class="user-form-input"
+          class="form-input"
         />
         <span id="input-new-user-email-alert" class="alert-message hidden">
           Invalid email! example: 'example@example.com'
@@ -170,7 +120,7 @@
           type="password"
           name="password"
           placeholder="Password"
-          class="user-form-input"
+          class="form-input"
         />
         <span id="input-new-user-password-alert" class="alert-message hidden">
           Invalid password! At least: 8 characters, one digit<br />one upper
@@ -178,10 +128,16 @@
           !#@^*-$%&?"
         </span>
         <div class="form-buttons">
-          <button id="button-add-new-user" class="add-new-user-button">
+          <button
+            id="button-add-new-user"
+            onclick="JavaScript:addUserButtonHandler()"
+          >
             Add new User
           </button>
-          <button id="button-add-new-user-cancel" class="add-new-user-button">
+          <button
+            id="button-add-new-user-cancel"
+            onclick="JavaScript:addUserCancelHandler()"
+          >
             Cancel
           </button>
         </div>
@@ -189,16 +145,16 @@
     </div>
     <!-- update user container -->
     <div id="update-user-container" class="popup-form hidden">
-      <div class="user-form-inner">
+      <div class="form-inner">
+        <input id="user-id" type="text" disabled class="form-input" />
         <span id="input-update-user-exist-alert" class="alert-message hidden">
           Account with given email already exist!<br />
           Please use different email address.
         </span>
-        <span id="user-id" class="hidden"></span>
         <select
           id="input-update-user-select-isadmin"
           name="select_isadmin"
-          class="user-form-input"
+          class="form-input"
         >
           <option value="0">User</option>
           <option value="1">Admin</option>
@@ -208,7 +164,7 @@
           type="text"
           name="full_name"
           placeholder="Full Name"
-          class="user-form-input"
+          class="form-input"
         />
         <span
           id="input-update-user-full-name-alert"
@@ -221,7 +177,7 @@
           type="email"
           name="email"
           placeholder="Email"
-          class="user-form-input"
+          class="form-input"
         />
         <span id="input-update-user-email-alert" class="alert-message hidden">
           Invalid email! example: 'example@example.com'
@@ -231,7 +187,7 @@
           type="password"
           name="password"
           placeholder="Password"
-          class="user-form-input"
+          class="form-input"
         />
         <span
           id="input-update-user-password-alert"
@@ -242,42 +198,21 @@
           !#@^*-$%&?"
         </span>
         <div class="form-buttons">
-          <button id="button-update-user" class="add-new-user-button">
+          <button
+            id="button-update-user"
+            onclick="JavaScript:updateUserButtonHandler()"
+          >
             Update User
           </button>
-          <button id="button-update-user-cancel" class="add-new-user-button">
-            Cancel
-          </button>
-        </div>
-      </div>
-    </div>
-    <!-- add new subject container -->
-    <div id="add-new-subject-container" class="popup-form hidden">
-      <div class="user-form-inner">
-        <span id="input-new-subject-exist-alert" class="alert-message hidden">
-          Given Subject already exist!<br />
-          Please use different Subject name.
-        </span>
-        <input
-          id="input-new-subject"
-          type="text"
-          name="subject_name"
-          placeholder="Subject Name"
-          class="user-form-input"
-        />
-        <div class="form-buttons">
-          <button id="button-add-new-subject" class="add-new-user-button">
-            Add new Subject
-          </button>
           <button
-            id="button-add-new-subject-cancel"
-            class="add-new-user-button"
+            id="button-update-user-cancel"
+            onclick="JavaScript:updateUserCancelHandler()"
           >
             Cancel
           </button>
         </div>
       </div>
     </div>
-    <script src="../js/admin.js"></script>
+    <script src="../js/admin_users.js"></script>
   </body>
 </html>

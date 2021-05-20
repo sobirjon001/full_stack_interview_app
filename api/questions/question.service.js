@@ -58,18 +58,18 @@ module.exports = {
     pool.query(
       `insert into subjects (subject_name) values (?)`,
       [subject],
-      (error2, results2, fields2) => {
-        if (error2) {
-          return callback(error2);
+      (error, results, fields) => {
+        if (error) {
+          return callback(error);
         }
-        return callback(null, results2);
+        return callback(null, results);
       }
     );
   },
   updateSubject: (data, callback) => {
     pool.query(
-      `update subjects set subject_name = ? where subject_id = ?`,
-      [data.subject_name, data.subject_id],
+      `update subjects set subject_name = ?, subject_is_active = ? where subject_id = ?`,
+      [data.subject_name, data.subject_is_active, data.subject_id],
       (error, results, fields) => {
         if (error) {
           return callback(error);
@@ -80,79 +80,43 @@ module.exports = {
   },
   createQuestion: (data, callback) => {
     pool.query(
-      `select question from questions where question = ?`,
-      [data.question],
-      (error0, results0, fields0) => {
-        if (error0) {
-          return callback(error0);
+      `insert into questions (subject_id, question, solution, time) 
+          values(?,?,?,?)`,
+      [data.subject_id, data.question, data.solution, data.time],
+      (error, results, fields) => {
+        if (error) {
+          return callback(error);
         }
-        if (results0.length > 0) {
-          return callback(null, "duplicate");
-        }
-        pool.query(
-          `select subject_id from subjects where subject_name = ?`,
-          [data.subject_name],
-          (error1, results1, fields1) => {
-            if (error1) {
-              return callback(error1);
-            }
-            if (results1.length === 0) {
-              return callback(null, "invalid subject");
-            }
-            pool.query(
-              `insert into questions (subject_id, question, solution, time) 
-              values(?,?,?,?)`,
-              [results1[0].subject_id, data.question, data.solution, data.time],
-              (error2, results2, fields2) => {
-                if (error2) {
-                  return callback(error2);
-                }
-                return callback(null, results2);
-              }
-            );
-          }
-        );
+        return callback(null, results);
       }
     );
   },
   updateQuestion: (data, callback) => {
     pool.query(
-      `select question from questions where question = ?`,
-      [data.question],
-      (error0, results0, fields0) => {
-        if (error0) {
-          return callback(error0);
+      `select subject_id from subjects where subject_name = ?`,
+      [data.subject_name],
+      (error1, results1, fields1) => {
+        if (error1) {
+          return callback(error1);
         }
-        if (results0.length > 0) {
-          return callback(null, "duplicate");
+        if (results1.length === 0) {
+          return callback(null, "invalid subject");
         }
         pool.query(
-          `select subject_id from subjects where subject_name = ?`,
-          [data.subject_name],
-          (error1, results1, fields1) => {
-            if (error1) {
-              return callback(error1);
-            }
-            if (results1.length === 0) {
-              return callback(null, "invalid subject");
-            }
-            pool.query(
-              `update questions set subject_id = ?, question = ?, solution = ?, time = ?
+          `update questions set subject_id = ?, question = ?, solution = ?, time = ?
               where question_id = ?`,
-              [
-                results1[0].subject_id,
-                data.question,
-                data.solution,
-                data.time,
-                data.question_id,
-              ],
-              (error2, results2, fields2) => {
-                if (error2) {
-                  return callback(error2);
-                }
-                return callback(null, results2);
-              }
-            );
+          [
+            results1[0].subject_id,
+            data.question,
+            data.solution,
+            data.time,
+            data.question_id,
+          ],
+          (error2, results2, fields2) => {
+            if (error2) {
+              return callback(error2);
+            }
+            return callback(null, results2);
           }
         );
       }

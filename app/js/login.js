@@ -71,7 +71,7 @@ function login() {
         is_admin = data.is_admin;
         if (is_admin === 1) {
           sessionStorage.setItem("token", token);
-          location.replace("./html/admin.html");
+          location.replace("./html/admin_users.html");
         } else {
           sessionStorage.setItem("token", token);
           location.replace("./html/user.html");
