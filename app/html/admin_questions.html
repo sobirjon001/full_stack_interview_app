@@ -54,7 +54,7 @@
               <span class="query-item"> | </span>
               <span id="questions-count" class="query-item"></span>
             </div>
-            <div id="pages"></div>
+            <div id="pages" class="hidden"></div>
           </div>
           <div id="two-tables-tabs">
             <button
@@ -175,6 +175,41 @@
         </div>
       </div>
     </div>
+    <!-- delete subject container -->
+    <div id="delete-subject-container" class="popup-form hidden">
+      <div class="form-inner">
+        <input
+          id="subject-id-to-delete"
+          type="text"
+          class="form-input"
+          disabled
+        />
+        <input
+          id="subject-name-to-delete"
+          type="text"
+          class="form-input"
+          disabled
+        />
+        <span class="alert-message">
+          All questions associated with this subject will be deleted<br />
+          Are you sure you want to delete? You can update it maby?
+        </span>
+        <div class="form-buttons">
+          <button
+            id="button-delete-subject"
+            onclick="JavaScript:deleteSubjectAction()"
+          >
+            Delete Subject
+          </button>
+          <button
+            id="button-update-subject-cancel"
+            onclick="JavaScript:deleteSubjectCansel()"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
     <!-- add new question container -->
     <div id="add-new-question-container" class="popup-form hidden">
       <div class="form-large">
@@ -182,10 +217,10 @@
           Given Question already exist!<br />
           Please use different Question.
         </span>
-        <div class="form-large-input">
+        <div class="form-large-input-group">
           <label for="subjects">Subject: </label>
           <select name="subjects" id="select-new-question-subjects"></select>
-          <label for="time"> | time in h: </label>
+          <label for="time"> | time in min: </label>
           <select name="time" id="select-new-question-time">
             <option value="1">1</option>
             <option value="2">2</option>
@@ -197,16 +232,12 @@
         <textarea
           name="question"
           id="textarea-new-question"
-          cols="30"
-          rows="2"
           placeholder="Question"
           class="form-large-input"
         ></textarea>
         <textarea
           name="solution"
           id="textarea-new-solution"
-          cols="30"
-          rows="10"
           placeholder="Solution"
           class="form-large-input"
         ></textarea>
@@ -239,13 +270,13 @@
         <input
           id="input-update-question-id"
           type="text"
-          class="form-large-input"
+          class="form-input"
           disabled
         />
-        <div class="form-large-input">
+        <div class="form-large-input-group">
           <label for="subjects">Subject: </label>
           <select name="subjects" id="select-update-question-subjects"></select>
-          <label for="time"> | time in h: </label>
+          <label for="time"> | time in min: </label>
           <select name="time" id="select-update-question-time">
             <option value="1">1</option>
             <option value="2">2</option>
@@ -257,16 +288,12 @@
         <textarea
           name="question"
           id="textarea-update-question"
-          cols="30"
-          rows="2"
           placeholder="Question"
           class="form-large-input"
         ></textarea>
         <textarea
           name="solution"
           id="textarea-update-solution"
-          cols="30"
-          rows="10"
           placeholder="Solution"
           class="form-large-input"
         ></textarea>

@@ -15,7 +15,7 @@ module.exports = {
       }
     );
   },
-  getUsers: (callback) => {
+  getAllUsers: (callback) => {
     pool.query(
       `select user_id, full_name, email, password, is_admin from users`,
       [],
@@ -27,9 +27,23 @@ module.exports = {
       }
     );
   },
+  getUsersByType: (user_type, callback) => {
+    pool.query(
+      `select user_id, full_name, email, password, is_admin from users
+      where is_admin = ?`,
+      [user_type],
+      (error, results, fields) => {
+        if (error) {
+          return callback(error);
+        }
+        return callback(null, results);
+      }
+    );
+  },
   getUserByUserId: (id, callback) => {
     pool.query(
-      `select user_id, full_name, email, password, is_admin from users where user_id = ?`,
+      `select user_id, full_name, email, password, is_admin from users
+      where user_id = ?`,
       [id],
       (error, results, fields) => {
         if (error) {

@@ -134,4 +134,28 @@ module.exports = {
       }
     );
   },
+  deleteQuestionsBySubjectId: (subject_id, callback) => {
+    pool.query(
+      `delete from questions where subject_id = ?`,
+      [subject_id],
+      (error, results, fields) => {
+        if (error) {
+          return callback(error);
+        }
+        return callback(null, results);
+      }
+    );
+  },
+  deleteSubjectById: (subject_id, callback) => {
+    pool.query(
+      `delete from subjects where subject_id = ?`,
+      [subject_id],
+      (error, results, fields) => {
+        if (error) {
+          return callback(error);
+        }
+        return callback(null, results);
+      }
+    );
+  },
 };

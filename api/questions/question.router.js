@@ -11,6 +11,8 @@ const {
   createQuestion,
   updateQuestion,
   deleteQuestionById,
+  deleteQuestionsBySubjectId,
+  deleteSubjectById,
 } = require("./question.controller");
 const { isAdminChek } = require("../users/user.controller");
 
@@ -22,6 +24,13 @@ router.post("/create_subject", checkToken, isAdminChek, createSubject);
 router.patch("/update_subject", checkToken, isAdminChek, updateSubject);
 router.post("/create", checkToken, isAdminChek, createQuestion);
 router.patch("/update", checkToken, isAdminChek, updateQuestion);
+router.delete(
+  "/by_subject_id",
+  checkToken,
+  isAdminChek,
+  deleteQuestionsBySubjectId
+);
+router.delete("/subject_by_id", checkToken, isAdminChek, deleteSubjectById);
 router.delete("/:id", checkToken, isAdminChek, deleteQuestionById);
 
 module.exports = router;

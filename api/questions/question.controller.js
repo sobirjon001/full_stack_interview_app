@@ -9,6 +9,8 @@ const {
   createQuestion,
   updateQuestion,
   deleteQuestionById,
+  deleteQuestionsBySubjectId,
+  deleteSubjectById,
 } = require("./question.service");
 
 // local reusable functions
@@ -30,6 +32,7 @@ function generateQuestions(req, res, results) {
   const end = (page - 1) * 10 + 10;
   let result = [];
   for (let i = start; i < end; i++) {
+    if (results[i] == null) break;
     result.push(results[i]);
   }
   return res.status(200).json({
@@ -252,6 +255,41 @@ module.exports = {
       return res.status(200).json({
         success: true,
         message: "Question deleted successfully",
+        data: results,
+      });
+    });
+  },
+  deleteQuestionsBySubjectId: (req, res) => {
+    let subject_id = req.headers.subject_id;
+    deleteQuestionsBySubjectId(subject_id, (err, results) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          success: false,
+          message: "Database connection error",
+        });
+      }
+      console.log("deleting question by subject id");
+      return res.status(200).json({
+        success: true,
+        message: "Questions deleted successfully",
+        data: results,
+      });
+    });
+  },
+  deleteSubjectById: (req, res) => {
+    let subject_id = req.headers.subject_id;
+    deleteSubjectById(subject_id, (err, results) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          success: false,
+          message: "Database connection error",
+        });
+      }
+      return res.status(200).json({
+        success: true,
+        message: "Subject deleted successfully",
         data: results,
       });
     });

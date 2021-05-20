@@ -58,6 +58,9 @@ const textareUpdateSolution = document.querySelector(
   "#textarea-update-solution"
 );
 const pages = document.querySelector("#pages");
+const deleteSubjectForm = document.querySelector("#delete-subject-container");
+const inputDeleteSubjectId = document.querySelector("#subject-id-to-delete");
+const inputDeleteSubject = document.querySelector("#subject-name-to-delete");
 
 // global variables
 let token = "";
@@ -171,11 +174,13 @@ function displaySubjects() {
 function showSubjectsTable() {
   subjectsTable.classList.remove("hidden");
   questionsTable.classList.add("hidden");
+  pages.classList.add("hidden");
 }
 
 function showQuestionsTable() {
   subjectsTable.classList.add("hidden");
   questionsTable.classList.remove("hidden");
+  pages.classList.remove("hidden");
 }
 
 function openAddNewSubjectForm() {
@@ -285,7 +290,44 @@ function updateSubjectAction(id, subject, status) {
 }
 
 function deleteSubjectHandler(t) {
-  console.log(t);
+  console.log(t.parentElement.parentElement.children[0].innerHTML);
+  let id = t.parentElement.parentElement.children[0].innerHTML;
+  inputDeleteSubjectId.value = "subject id: " + id;
+  inputDeleteSubject.value =
+    t.parentElement.parentElement.children[1].innerHTML;
+  adminContainer.classList.add("grey");
+  deleteSubjectForm.classList.remove("hidden");
+}
+
+function deleteSubjectCansel() {
+  adminContainer.classList.remove("grey");
+  deleteSubjectForm.classList.add("hidden");
+}
+
+function deleteSubjectAction() {
+  let id = inputDeleteSubjectId.value.substring(12);
+  fetch("/api/questions/by_subject_id", {
+    method: "DELETE",
+    headers: {
+      Authorization: "Bearer " + token,
+      subject_id: id,
+    },
+  }).then(async (response) => {
+    let data = await response.json();
+    fetch("/api/questions/subject_by_id", {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + token,
+        subject_id: id,
+      },
+    }).then(async (response) => {
+      let data2 = await response.json();
+      console.log(data2);
+      getAllSubjects();
+      getAllQuestions("All");
+      deleteSubjectCansel();
+    });
+  });
 }
 
 function getAllQuestions(subject_name) {
@@ -301,7 +343,6 @@ function getAllQuestions(subject_name) {
     }
   ).then(async (response) => {
     let data = await response.json();
-    console.log(data);
     if (data.message.includes("No records found")) {
       questions = [];
       questionsCount.innerHTML = 0 + " questions";
@@ -310,7 +351,7 @@ function getAllQuestions(subject_name) {
       questions.push(...data.questions);
       questionsCount.innerHTML = data.number_of_entries + " questions";
     }
-    questionsTotalPages = data.total_pages;
+    questionsTotalPages = parseInt(data.total_pages);
     displayQuestions();
     updatePageButtons();
   });
@@ -497,26 +538,29 @@ function updatePageButtons() {
     if (questionsCurrentPage > 3) {
       buttons += `<span> . . . </span>`;
     }
-    for (let i = questionsCurrentPage - 1; i < questionsCurrentPage + 2; i++) {
+    for (
+      let i = questionsCurrentPage - 1;
+      i < questionsCurrentPage + 2 && i < questionsTotalPages;
+      i++
+    ) {
       if (i < 1) continue;
       buttons += `<button
           class="table-page-button"
           onclick="JavaScript:pageButtonHandler(this)"
-        >
-          ${i}
-        </button>`;
+        >${i}</button>`;
     }
     if (questionsCurrentPage + 2 < questionsTotalPages) {
       buttons += `<span> . . . </span>`;
     }
-    if (questionsCurrentPage + 1 < questionsTotalPages) {
-      buttons += `<button
-        class="table-page-button"
-        onclick="JavaScript:pageButtonHandler(this)"
-      >
-        ${questionsTotalPages}
-      </button>`;
-    }
+    buttons += `<button
+      class="table-page-button"
+      onclick="JavaScript:pageButtonHandler(this)"
+    >${questionsTotalPages}</button>`;
     pages.innerHTML = buttons;
   }
+}
+
+function pageButtonHandler(t) {
+  questionsCurrentPage = parseInt(t.innerHTML);
+  getAllQuestions(selectFilterBySubject.value);
 }

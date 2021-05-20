@@ -44,16 +44,19 @@ const alertUpdateUserEmail = document.querySelector(
 const alertUpdateUserPassword = document.querySelector(
   "#input-update-user-password-alert"
 );
-const selectIsAdmin = document.querySelector("#select-isAdmin");
+const selectFilterUsersIsAdmin = document.querySelector("#select-isAdmin");
 const usersCount = document.querySelector("#users-count");
+const pages = document.querySelector("#pages");
 
 // event listeners
-selectIsAdmin.addEventListener("change", displayUsers);
 
 // global variables
 let token = "";
 let userName = "";
 let users = [];
+let totalUsers = 1;
+let usersCurrentPage = 1;
+let usersTotalPages = 1;
 
 // functions
 (() => {
@@ -67,29 +70,33 @@ let users = [];
     let data = await response.json();
     userName = data.data.full_name;
     navUserName.innerHTML = "Welcome " + userName;
-    getAllUsers();
+    getAllUsers("All");
   });
 })();
 
-function getAllUsers() {
+function getAllUsers(user_status) {
   fetch("/api/users", {
     method: "GET",
     headers: {
       Authorization: "Bearer " + token,
+      user_status: user_status,
+      page: usersCurrentPage,
     },
   }).then(async (response) => {
     let data = await response.json();
     users = [];
-    users.push(...users, ...data.data);
+    users.push(...users, ...data.users);
+    usersTotalPages = parseInt(data.total_pages);
+    totalUsers = parseInt(data.number_of_entries);
     displayUsers();
+    updatePageButtons();
   });
 }
 
 function displayUsers() {
-  console.log("step");
-  usersCount.innerHTML = users.length + " users";
+  usersCount.innerHTML = totalUsers + " users";
   let matcher = "";
-  switch (selectIsAdmin.value) {
+  switch (selectFilterUsersIsAdmin.value) {
     case "User":
       matcher = /0/;
       break;
@@ -196,7 +203,7 @@ function addUserButtonHandler() {
       let data = await response.json();
       if (data.success) {
         addUserCancelHandler();
-        getAllUsers();
+        getAllUsers(selectFilterUsersIsAdmin.value);
       } else if (data.message.includes("Duplicate entry")) {
         clearNewUserForm();
         alertNewUserExist.classList.remove("hidden");
@@ -216,7 +223,7 @@ function deleteUserHandler(t, e) {
   }).then(async (response) => {
     let data = await response.json();
     if (data.success) {
-      getAllUsers();
+      getAllUsers(selectFilterUsersIsAdmin.value);
     } else if (
       data.message.includes("Deleting or modifying Super Admin is Prohibited!")
     ) {
@@ -288,7 +295,7 @@ function updateUserButtonHandler() {
       let data = await response.json();
       if (data.success) {
         updateUserCancelHandler();
-        getAllUsers();
+        getAllUsers(selectFilterUsersIsAdmin.value);
       } else if (data.message.includes("Duplicate entry")) {
         alertUpdateUserExist.classList.remove("hidden");
       } else if (
@@ -301,4 +308,45 @@ function updateUserButtonHandler() {
       }
     });
   }
+}
+
+function updatePageButtons() {
+  let buttons = "";
+  if (usersTotalPages > 1) {
+    if (usersCurrentPage > 2) {
+      buttons += `<button
+        class="table-page-button"
+        onclick="JavaScript:pageButtonHandler(this)"
+      >
+        1
+      </button>`;
+    }
+    if (usersCurrentPage > 3) {
+      buttons += `<span> . . . </span>`;
+    }
+    for (
+      let i = usersCurrentPage - 1;
+      i < usersCurrentPage + 2 && i < usersTotalPages;
+      i++
+    ) {
+      if (i < 1) continue;
+      buttons += `<button
+          class="table-page-button"
+          onclick="JavaScript:pageButtonHandler(this)"
+        >${i}</button>`;
+    }
+    if (usersCurrentPage + 2 < usersTotalPages) {
+      buttons += `<span> . . . </span>`;
+    }
+    buttons += `<button
+      class="table-page-button"
+      onclick="JavaScript:pageButtonHandler(this)"
+    >${usersTotalPages}</button>`;
+    pages.innerHTML = buttons;
+  }
+}
+
+function pageButtonHandler(t) {
+  usersCurrentPage = parseInt(t.innerHTML);
+  getAllQuestions(selectFilterBySubject.value);
 }

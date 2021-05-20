@@ -31,6 +31,7 @@
                   name="sort admin status"
                   id="select-isAdmin"
                   class="query-item"
+                  onchange="JavaScript:getAllUsers(this.value)"
                 >
                   <option value="All">All</option>
                   <option value="Admin">Admin</option>
@@ -52,17 +53,9 @@
                     Add new User
                   </button>
                 </div>
-                <span id="users-count"></span>
+                <span id="users-count" class="query-item"></span>
               </div>
-              <div id="pages">
-                <button class="table-page-button">1</button>
-                <button class="table-page-button">2</button>
-                <button class="table-page-button">3</button>
-                <button class="table-page-button">4</button>
-                <button class="table-page-button">5</button>
-                <span>. . .</span>
-                <button class="table-page-button">90</button>
-              </div>
+              <div id="pages"></div>
             </div>
             <table id="users-table">
               <thead>

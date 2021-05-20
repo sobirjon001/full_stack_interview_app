@@ -2,7 +2,8 @@
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
 const {
   createUser,
-  getUsers,
+  getAllUsers,
+  getUsersByType,
   getUserByUserId,
   updateUser,
   deleteUserByUserId,
@@ -16,6 +17,51 @@ const secretKey = process.env.SECRET_KEY || "abc1234";
 
 // admin options
 const adminEmail = process.env.ADMIN_EMAIL || "admin@cambridge.com";
+
+// local reusable functions
+function generateUsers(err, req, res, results) {
+  if (err) {
+    console.log(err);
+    return res.status(500).json({
+      success: false,
+      message: "Database connection error",
+    });
+  }
+  let length = results.length;
+  if (length == 0) {
+    return res.status(404).json({
+      success: false,
+      message: "Record not found",
+    });
+  }
+  const page = req.headers.page || 1;
+  let iterNum = Math.floor(length / 10);
+  if (length % 10 != 0) {
+    iterNum++;
+  }
+  if (page > iterNum) {
+    return res.status(413).json({
+      success: false,
+      message: "Requested page number is too large",
+      "max number of pages": iterNum,
+    });
+  }
+  const start = (page - 1) * 10;
+  const end = (page - 1) * 10 + 10;
+  let result = [];
+  for (let i = start; i < end; i++) {
+    if (results[i] == null) break;
+    result.push(results[i]);
+  }
+  return res.status(200).json({
+    success: true,
+    message: "successful request",
+    number_of_entries: length,
+    current_page: page,
+    total_pages: iterNum,
+    users: result,
+  });
+}
 
 // controllers
 module.exports = {
@@ -44,34 +90,16 @@ module.exports = {
     });
   },
   getUsers: (req, res) => {
-    if (!req.decodedUser.result.is_admin) {
-      return res.status(403).json({
-        success: false,
-        message: "Unuthorised! Must have administrative account",
+    if (req.headers.user_status == "All") {
+      getAllUsers((err, results) => {
+        generateUsers(err, req, res, results);
+      });
+    } else {
+      let user_type = req.headers.user_status == "Admin" ? 1 : 0;
+      getUsersByType(user_type, (err, results) => {
+        generateUsers(err, req, res, results);
       });
     }
-    getUsers((err, results) => {
-      if (err) {
-        console.log(err);
-        return res.status(500).json({
-          success: false,
-          message: "Database connection error",
-        });
-      }
-      if (results.length == 0) {
-        return res.status(404).json({
-          success: false,
-          message: "Record not found",
-        });
-      }
-      const count = results.length;
-      return res.status(200).json({
-        success: true,
-        message: "These are all users",
-        users_count: count,
-        data: results,
-      });
-    });
   },
   getUserByUserId: (req, res) => {
     const id = req.params.id;
@@ -197,7 +225,7 @@ module.exports = {
     if (req.decodedUser.result.is_admin != 1) {
       return res.status(403).json({
         success: false,
-        message: "You are not authorized to create account",
+        message: "Unuthorised! Must have administrative account",
       });
     }
     next();
