@@ -1,0 +1,13 @@
+.dark-panel {
+  background-color: rgb(129, 127, 127);
+  box-shadow: 0px 0px 20px rgb(93, 93, 93);
+}
+
+.light-panel {
+  background-color: white;
+  box-shadow: 0px 0px 20px lightgrey;
+}
+
+.light-item {
+  color: white;
+}

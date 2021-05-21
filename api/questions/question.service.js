@@ -24,6 +24,18 @@ module.exports = {
       return callback(null, results);
     });
   },
+  getActiveSubjects: (callback) => {
+    pool.query(
+      `select * from subjects where subject_is_active = '1'`,
+      [],
+      (error, results, fields) => {
+        if (error) {
+          return callback(error);
+        }
+        return callback(null, results);
+      }
+    );
+  },
   getQuestionsBySubject: (subject, callback) => {
     pool.query(
       `select q.question_id, s.subject_name, q.question, q.solution, q.time 

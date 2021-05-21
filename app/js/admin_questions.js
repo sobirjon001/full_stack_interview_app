@@ -540,22 +540,25 @@ function updatePageButtons() {
     }
     for (
       let i = questionsCurrentPage - 1;
-      i < questionsCurrentPage + 2 && i < questionsTotalPages;
+      i <= questionsCurrentPage + 1 && i <= questionsTotalPages;
       i++
     ) {
       if (i < 1) continue;
+      let status = i == questionsCurrentPage ? " active-page" : "";
       buttons += `<button
-          class="table-page-button"
+          class="table-page-button${status}"
           onclick="JavaScript:pageButtonHandler(this)"
         >${i}</button>`;
     }
     if (questionsCurrentPage + 2 < questionsTotalPages) {
       buttons += `<span> . . . </span>`;
     }
-    buttons += `<button
+    if (questionsCurrentPage + 1 < questionsTotalPages) {
+      buttons += `<button
       class="table-page-button"
       onclick="JavaScript:pageButtonHandler(this)"
     >${questionsTotalPages}</button>`;
+    }
     pages.innerHTML = buttons;
   }
 }

@@ -185,6 +185,10 @@ button {
   margin: auto 5px auto auto;
 }
 
+.active-page {
+  background-color: aquamarine;
+}
+
 .table-container {
   position: relative;
   margin: 5px 0px;

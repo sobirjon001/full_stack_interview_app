@@ -4,6 +4,7 @@ const { checkToken } = require("../auth/token_validation");
 const {
   getQuestions,
   getSubjects,
+  getActiveSubjects,
   getQuestionsBySubject,
   getQuestionById,
   createSubject,
@@ -18,6 +19,7 @@ const { isAdminChek } = require("../users/user.controller");
 
 router.get("/", checkToken, getQuestions);
 router.get("/all_subjects", checkToken, getSubjects);
+router.get("/active_subjects", checkToken, getActiveSubjects);
 router.get("/by_subject", checkToken, getQuestionsBySubject);
 router.get("/:id", checkToken, getQuestionById);
 router.post("/create_subject", checkToken, isAdminChek, createSubject);

@@ -47,6 +47,7 @@ const alertUpdateUserPassword = document.querySelector(
 const selectFilterUsersIsAdmin = document.querySelector("#select-isAdmin");
 const usersCount = document.querySelector("#users-count");
 const pages = document.querySelector("#pages");
+const inputSearchByFullName = document.querySelector("#input-search-name");
 
 // event listeners
 
@@ -326,22 +327,25 @@ function updatePageButtons() {
     }
     for (
       let i = usersCurrentPage - 1;
-      i < usersCurrentPage + 2 && i < usersTotalPages;
+      i <= usersCurrentPage + 1 && i <= usersTotalPages;
       i++
     ) {
       if (i < 1) continue;
+      let status = i == usersCurrentPage ? " active-page" : "";
       buttons += `<button
-          class="table-page-button"
+          class="table-page-button${status}"
           onclick="JavaScript:pageButtonHandler(this)"
         >${i}</button>`;
     }
     if (usersCurrentPage + 2 < usersTotalPages) {
       buttons += `<span> . . . </span>`;
     }
-    buttons += `<button
+    if (usersCurrentPage + 1 < usersTotalPages) {
+      buttons += `<button
       class="table-page-button"
       onclick="JavaScript:pageButtonHandler(this)"
     >${usersTotalPages}</button>`;
+    }
     pages.innerHTML = buttons;
   }
 }
@@ -349,4 +353,42 @@ function updatePageButtons() {
 function pageButtonHandler(t) {
   usersCurrentPage = parseInt(t.innerHTML);
   getAllQuestions(selectFilterBySubject.value);
+}
+
+function searhUserByFullNameButtonHandler() {
+  if (
+    inputSearchByFullName.value == "" ||
+    inputSearchByFullName.value == "Please Provide valid Full Name" ||
+    !validateFullName(inputSearchByFullName.value)
+  ) {
+    inputSearchByFullName.value = "Please Provide valid Full Name";
+  } else {
+    console.log(inputSearchByFullName.value);
+    fetch("/api/users/by_full_name", {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+        full_name: inputSearchByFullName.value,
+      },
+    }).then(async (response) => {
+      let data = await response.json();
+      console.log(data);
+      if (data.message == "Record not found") {
+        inputSearchByFullName.value = "Record not found";
+      } else {
+        users = [];
+        users.push(...data.users);
+        usersTotalPages = parseInt(data.total_pages);
+        totalUsers = parseInt(data.number_of_entries);
+        displayUsers();
+        updatePageButtons();
+      }
+    });
+  }
+}
+
+function clearUpdateButtonHandler() {
+  inputSearchByFullName.value = "";
+  selectFilterUsersIsAdmin.value = "All";
+  getAllUsers("All");
 }

@@ -2,6 +2,7 @@
 const {
   getQuestions,
   getSubjects,
+  getActiveSubjects,
   getQuestionsBySubject,
   getQuestionById,
   createSubject,
@@ -45,6 +46,27 @@ function generateQuestions(req, res, results) {
   });
 }
 
+function generateSubjects(err, res, results) {
+  if (err) {
+    console.log(err);
+    return res.status(500).json({
+      success: false,
+      message: "Database connection error",
+    });
+  }
+  if (results.length === 0) {
+    return res.status(404).json({
+      success: false,
+      message: "No records found",
+    });
+  }
+  return res.status(200).json({
+    success: true,
+    message: "successful request",
+    "number of entries": results.length,
+    subjects: results,
+  });
+}
 // controllers
 module.exports = {
   getQuestions: (req, res) => {
@@ -67,25 +89,12 @@ module.exports = {
   },
   getSubjects: (req, res) => {
     getSubjects((err, results) => {
-      if (err) {
-        console.log(err);
-        return res.status(500).json({
-          success: false,
-          message: "Database connection error",
-        });
-      }
-      if (results.length === 0) {
-        return res.status(404).json({
-          success: false,
-          message: "No records found",
-        });
-      }
-      return res.status(200).json({
-        success: true,
-        message: "successful request",
-        "number of entries": results.length,
-        subjects: results,
-      });
+      generateSubjects(err, res, results);
+    });
+  },
+  getActiveSubjects: (req, res) => {
+    getActiveSubjects((err, results) => {
+      generateSubjects(err, res, results);
     });
   },
   getQuestionsBySubject: (req, res) => {

@@ -53,6 +53,19 @@ module.exports = {
       }
     );
   },
+  getUserByFullName: (full_name, callback) => {
+    pool.query(
+      `select user_id, full_name, email, password, is_admin from users
+      where full_name like ?`,
+      [full_name],
+      (error, results, fields) => {
+        if (error) {
+          return callback(null, error);
+        }
+        return callback(null, results);
+      }
+    );
+  },
   updateUser: (data, callback) => {
     pool.query(
       `update users set full_name = ?, email = ?, password = ?, is_admin = ? where user_id = ?`,

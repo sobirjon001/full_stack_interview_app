@@ -74,7 +74,15 @@ function login() {
           location.replace("./html/admin_users.html");
         } else {
           sessionStorage.setItem("token", token);
-          location.replace("./html/user.html");
+          if (
+            /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+              navigator.userAgent
+            )
+          ) {
+            location.replace("./html/m.user.html");
+          } else {
+            location.replace("./html/user.html");
+          }
         }
       }
       if (response.status === 401) {

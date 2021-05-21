@@ -5,6 +5,7 @@ const {
   getAllUsers,
   getUsersByType,
   getUserByUserId,
+  getUserByFullName,
   updateUser,
   deleteUserByUserId,
   getUserByEmail,
@@ -122,6 +123,13 @@ module.exports = {
         message: "Found user by provided user_id here",
         data: results,
       });
+    });
+  },
+  getUserByFullName: (req, res) => {
+    const full_name = req.headers.full_name;
+    console.log(full_name);
+    getUserByFullName(full_name, (err, results) => {
+      generateUsers(err, req, res, results);
     });
   },
   updateUser: (req, res) => {
