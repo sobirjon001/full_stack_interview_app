@@ -9,6 +9,9 @@ const buttonLogin = document.querySelector("#button-login");
 const loginLink = document.querySelector("#login-link");
 const signUpLink = document.querySelector("#sign-up-link");
 
+// api base_uri settings
+const base_uri = "192.168.1.20:7000";
+
 // global variables
 let isLoggingIn = true;
 let token = "";

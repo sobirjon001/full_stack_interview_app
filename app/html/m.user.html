@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="../css/mobile.user.style.css" />
     <link
       rel="stylesheet"
@@ -15,7 +16,66 @@
   <body>
     <!-- play-container -->
     <div id="play-container" class="light-panel">
-      <label id="questions-count" class="dark-item small-text-item"></label>
+      <dev id="header" class="linear_container">
+        <label id="question_id" class="dark-item small-text-item"></label>
+        <span class="dark-item small-text-item"> | </span>
+        <label id="suject-name" class="dark-item small-text-item"></label>
+        <span class="dark-item small-text-item"> | </span>
+        <label id="questions-count" class="dark-item small-text-item"></label>
+        <span class="dark-item small-text-item"> | </span>
+        <a href="/app/index.html" class="small-text-item">
+          <button class="light-button">Log out</button>
+        </a>
+      </dev>
+      <label id="text-display" class="dark-item-border"> </label>
+      <div id="navigation" class="linear_container">
+        <button
+          class="light-button"
+          onclick="JavaScript:showSolutionButtonHandler()"
+        >
+          Show solution
+        </button>
+        <button class="light-button" onclick="JavaScript:runGame()">
+          Next question
+        </button>
+      </div>
+      <video id="video" poster="../img/persone.gif" autoplay></video>
+    </div>
+    <!-- control-container -->
+    <div id="controll-container">
+      <label id="rec-message" class="onvide-text-item"></label>
+      <label id="timer-label" class="onvide-text-item"></label>
+      <img
+        id="video-on"
+        src="../img/Power.png"
+        class="video-button"
+        onclick="JavaScript:videoPowerButtonHandler()"
+      />
+      <img
+        id="video-record"
+        src="../img/Rec.png"
+        class="video-button grey"
+        onclick="JavaScript:videoRecordButtonHandler()"
+      />
+      <img
+        id="video-play"
+        src="../img/Play.png"
+        class="video-button grey"
+        onclick="JavaScript:videoPlayButtonHandler()"
+      />
+      <img
+        id="video-pause"
+        src="../img/pause.png"
+        class="video-button grey"
+        onclick="JavaScript:videoPauseButtonHandler()"
+      />
+      <a id="video-download" download="test.webm" class="grey">
+        <img
+          src="../img/Download.png"
+          id="video-download-icon"
+          class="video-button"
+        />
+      </a>
     </div>
     <!-- menue-container -->
     <div id="menue-container" class="hidden">
@@ -47,8 +107,8 @@
         <label class="dark-item menue-item" class="dark-item">
           Auto recording </label
         ><img
-          value="on"
-          src="../img/switch_on.gif"
+          value="off"
+          src="../img/switch_off.gif"
           onclick="JavaScript:autoRecordingSwitchHandler(this)"
           class="switch-item auto-recording-switch"
         />

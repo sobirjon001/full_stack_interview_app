@@ -11,3 +11,8 @@
 .light-item {
   color: white;
 }
+
+.dark-item-border {
+  border: 1px solid rgb(41, 41, 41);
+  border-radius: 10px;
+}
