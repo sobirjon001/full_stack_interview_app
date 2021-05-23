@@ -6,6 +6,7 @@ const userRouter = require("./api/users/user.router");
 const questionRouter = require("./api/questions/question.router");
 const fs = require("fs");
 const swaggerUi = require("swagger-ui-express");
+const cors = require("cors");
 
 // first initialisation
 initialise();
@@ -20,6 +21,7 @@ app.use(
     extended: false,
   })
 );
+app.use(cors());
 
 // open web_based application
 app.use("/app", express.static("./app"));
