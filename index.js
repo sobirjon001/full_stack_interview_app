@@ -7,12 +7,16 @@ const questionRouter = require("./api/questions/question.router");
 const fs = require("fs");
 const swaggerUi = require("swagger-ui-express");
 const cors = require("cors");
+const https = require("https");
 
 // first initialisation
 initialise();
 
 // server settings
 const port = process.env.PORT || 7000;
+const privateKey = fs.readFileSync("sslcert/server.key", "utf8");
+const certificate = fs.readFileSync("sslcert/server.crt", "utf8");
+const credentials = { key: privateKey, cert: certificate };
 
 // app settings
 app.use(express.json());
@@ -48,7 +52,12 @@ const openApiDocumentation = yaml.load("./api/swagger/swagger.yaml");
 app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(openApiDocumentation));
 
 // start the server
-app.listen(port, (error) => {
+const httpsServet = https.createServer(credentials, app);
+httpsServet.listen(port, (error) => {
   if (error) return console.log(`Error: ${error}`);
   console.log(`Server listening on port ${port}`);
 });
+// app.listen(port, (error) => {
+//   if (error) return console.log(`Error: ${error}`);
+//   console.log(`Server listening on port ${port}`);
+// });

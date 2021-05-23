@@ -49,7 +49,7 @@ function checkSubjects(callback) {
 }
 
 function checkUsers(callback) {
-  console.log("Cheking if userd tabel exist ...");
+  console.log("Cheking if user tabel exist ...");
   pool.query(
     `select exists(
       select 1 from information_schema.tables 

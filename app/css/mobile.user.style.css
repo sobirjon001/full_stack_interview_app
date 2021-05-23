@@ -10,7 +10,7 @@ html {
 }
 
 body {
-  font-size: 20px;
+  font-size: 18px;
   width: 100%;
   height: 100%;
   margin: 0;
@@ -36,46 +36,86 @@ body {
   -webkit-filter: blur(1px);
 }
 
-#play-container {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  margin: 0;
-  padding: 5px;
-  display: flex;
-  flex-direction: column;
-}
-
-#main-menue-button-container {
-  position: absolute;
-  z-index: 5;
-  width: 70px;
-  height: 70px;
-  bottom: 40px;
-  right: 20px;
-  display: flex;
-  flex-direction: column;
-}
-
-#main-menue-button {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  display: flex;
-}
-
 h4 {
   text-align: center;
   margin: auto;
 }
 
 button {
+  margin: auto;
   font-size: 18px;
 }
 
 .alert {
   color: red !important;
 }
+
+label {
+  margin: auto;
+}
+
+/* play-container */
+
+#play-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.linear_container {
+  margin: 5px;
+  display: inline-flex;
+}
+
+#text-display {
+  margin: 0 5px;
+  height: 100px;
+  padding: 10px;
+  overflow: auto;
+}
+
+#video {
+  margin: 5px;
+}
+
+/* controll-container */
+
+#controll-container {
+  position: fixed;
+  bottom: 5px;
+  right: 5px;
+  width: 95%;
+  height: 420px;
+  display: flex;
+}
+
+.video-button {
+  position: absolute;
+  bottom: 50px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}
+
+.onvide-text-item {
+  font-size: 30px;
+  color: rgb(255, 255, 255);
+  text-shadow: 0px 0px 5px rgb(0, 0, 0);
+}
+
+#timer-label {
+  font-family: digital;
+  margin: 5px 5px auto auto;
+}
+
+#rec-message {
+  margin: 5px auto auto 5px;
+}
+
+/* menue-container */
 
 #menue-container {
   position: absolute;
@@ -103,10 +143,6 @@ button {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-column-gap: 10px;
-}
-
-label {
-  margin: auto;
 }
 
 .subject-label {
@@ -154,60 +190,26 @@ label {
   margin: 0 180px 20px auto;
 }
 
-.linear_container {
-  width: 100%;
-  display: inline-flex;
-}
-
-button {
-  margin: auto;
-}
-
 .small-text-item {
   margin: auto;
 }
 
-#text-display {
-  margin: 5px;
-  height: 100px;
-  padding: 10px;
-  overflow: auto;
-}
+/* main-menue-button-container */
 
-#video {
-  margin: auto 0 5px 0;
-}
-
-#controll-container {
-  position: fixed;
-  bottom: 5px;
-  right: 5px;
-  width: 95%;
-  height: 420px;
-  display: flex;
-  /* z-index: 1; */
-}
-
-.video-button {
+#main-menue-button-container {
   position: absolute;
-  bottom: 50px;
+  z-index: 5;
+  width: 70px;
+  height: 70px;
+  bottom: 40px;
   right: 20px;
-  width: 50px;
-  height: 50px;
-  cursor: pointer;
+  display: flex;
+  flex-direction: column;
 }
 
-.onvide-text-item {
-  font-size: 30px;
-  color: rgb(255, 255, 255);
-  text-shadow: 0px 0px 5px rgb(0, 0, 0);
-}
-
-#timer-label {
-  font-family: digital;
-  margin: 5px 5px auto auto;
-}
-
-#rec-message {
-  margin: 5px auto auto 5px;
+#main-menue-button {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
 }
