@@ -2,3 +2,5 @@ PORT || 7000
 ADMIN_EMAIL || "admin@cambridge.com"
 ADMIN_PASSWORD || "cambridge"
 SECRET_KEY || "abc1234"
+SSL_CERT_PATH || "/home/sobir/sslcert/server.crt"
+SSL_KEY_PATH || "/home/sobir/sslcert/server.key"

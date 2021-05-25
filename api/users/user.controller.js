@@ -127,7 +127,6 @@ module.exports = {
   },
   getUserByFullName: (req, res) => {
     const full_name = req.headers.full_name;
-    console.log(full_name);
     getUserByFullName(full_name, (err, results) => {
       generateUsers(err, req, res, results);
     });

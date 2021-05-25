@@ -1,25 +1,5 @@
 version: "3.2"
 services:
-  nodejs:
-    # build:
-    #   context: .
-    image: sobirjon/full_stack_interview_app:0.1
-    container_name: full-stack-interview-app
-    depends_on:
-      - mysql
-    environment:
-      - MYSQL_HOST=interview-mysql-app
-      - MYSQL_USER=root
-      - MYSQL_PASS=root
-      - MYSQL_DB=node_db
-      - SECRET_KEY=abc1234
-      - ADMIN_EMAIL=admin@cambridge.com
-      - ADMIN_PASSWORD=cambridge
-    # networks:
-    #   - frontend
-    #   - backend
-    ports:
-      - "7000:7000"
   mysql:
     image: mysql:5.7
     container_name: interview-mysql-app
@@ -29,10 +9,7 @@ services:
       - MYSQL_PASSWORD=cambridge
       - MYSQL_DATABASE=node_db
     volumes:
-      # - mysql:/var/lib/mysql
       - "./mysql:/var/lib/mysql"
-    # networks:
-    #   - backend
     ports:
       - "3306:3306"
   phpmyadmin:
@@ -44,15 +21,23 @@ services:
       - PMA_HOST=interview-mysql-app
       - PMA_PORT= 3306
     volumes:
-      # - phpmyadmin:/sessions
       - "./phpmyadmin:/sessions"
-    # networks:
-    #   - backend
     ports:
       - "7001:80"
-# networks:
-#   frontend:
-#   backend:
-# volumes:
-#   phpmyadmin:
-#   mysql:
+  nodejs:
+    image: sobirjon/full_stack_interview_app:0.3
+    container_name: full-stack-interview-app
+    depends_on:
+      - mysql
+    environment:
+      - MYSQL_HOST=interview-mysql-app
+      - MYSQL_USER=root
+      - MYSQL_PASS=root
+      - MYSQL_DB=node_db
+      - SECRET_KEY=abc1234
+      - ADMIN_EMAIL=admin@cambridge.com
+      - ADMIN_PASSWORD=cambridge
+      - SSL_CERT_PATH=ssl_cert_path_here
+      - SSL_KEY_PATH=ssl_key_path_here
+    ports:
+      - "7000:7000"

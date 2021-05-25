@@ -19,4 +19,4 @@ EXPOSE 7000
 CMD [ "npm", "start" ]
 
 # to build image from this this Dockerfile run this commant from current directory
-# sudo docker build -t sobirjon/full_stack_interview_app:0.2 .
+# sudo docker build -t sobirjon/full_stack_interview_app:0.3 .
