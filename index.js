@@ -51,8 +51,9 @@ app.use("/api/users", userRouter);
 app.use("/api/questions", questionRouter);
 
 // create swagger documentation
-const yaml = require("yamljs");
-const openApiDocumentation = yaml.load("./api/swagger/swagger.yaml");
+// const yaml = require("yamljs");
+// const openApiDocumentation = yaml.load("./api/swagger/swagger.yaml");
+const openApiDocumentation = require("./api/swagger/swagger.json");
 app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(openApiDocumentation));
 
 // start the server

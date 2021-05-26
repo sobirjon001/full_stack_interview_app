@@ -39,11 +39,27 @@
     "/users/login": {
       "post": {
         "tags": ["Authorisation"],
-        "security": [
-          {
-            "BasicAuth": []
+        "requestBody": {
+          "description": "user info to be filled",
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "password"],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "user email"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "user password"
+                  }
+                }
+              }
+            }
           }
-        ],
+        },
         "operationId": "getToken",
         "description": "Login with email and password and get token, which is active for 1h",
         "responses": {
@@ -120,6 +136,18 @@
         ],
         "operationId": "getAllUsers",
         "description": "Get all users",
+        "parameters": [
+          {
+            "name": "user_status",
+            "in": "header",
+            "description": "filter users by status",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["All", "Admin", "Users"]
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successfull operation",
@@ -127,9 +155,11 @@
               "application/json": {
                 "example": {
                   "success": true,
-                  "message": "These are all users",
-                  "users count": 5,
-                  "data": [
+                  "message": "successful request",
+                  "number_of_entries": 5,
+                  "current_page": 1,
+                  "total_pages": 1,
+                  "users": [
                     {
                       "user_id": 3,
                       "full_name": "Courtney Daugherty",
@@ -252,6 +282,81 @@
                       "email": "Gloria_Frami98@hotmail.com",
                       "password": "$2b$10$rk0wvwEt.DK/.WQcG9CTMeMzjhWWk2a5SfAAaK95gunp.7xII301q",
                       "is_admin": 2
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/404Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/500Error"
+          }
+        }
+      }
+    },
+    "/users/by_full_name": {
+      "get": {
+        "tags": ["Users"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "operationId": "getUserByFullName",
+        "description": "Get user by Full Name",
+        "parameters": [
+          {
+            "name": "full_name",
+            "in": "header",
+            "description": "find user by full_name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull operation",
+            "content": {
+              "application/json": {
+                "example": {
+                  "success": true,
+                  "message": "successful request",
+                  "number_of_entries": 1,
+                  "current_page": 1,
+                  "total_pages": 1,
+                  "users": [
+                    {
+                      "user_id": 5,
+                      "full_name": "Courtney Daugherty",
+                      "email": "Gloria_Frami98@hotmail.com",
+                      "password": "$2b$10$rk0wvwEt.DK/.WQcG9CTMeMzjhWWk2a5SfAAaK95gunp.7xII301q",
+                      "is_admin": 1
+                    }
+                  ]
+                }
+              },
+              "application/xml": {
+                "example": {
+                  "success": true,
+                  "message": "Found user by provided user_id here",
+                  "data": [
+                    {
+                      "user_id": 5,
+                      "full_name": "Courtney Daugherty",
+                      "email": "Gloria_Frami98@hotmail.com",
+                      "password": "$2b$10$rk0wvwEt.DK/.WQcG9CTMeMzjhWWk2a5SfAAaK95gunp.7xII301q",
+                      "is_admin": 1
                     }
                   ]
                 }
@@ -514,6 +619,147 @@
           }
         }
       }
+    },
+    "/api/questions": {
+      "get": {
+        "tags": ["questions"],
+        "security": [{ "BearerAuth": [] }],
+        "operationId": "getAllQuestions",
+        "responses": {
+          "200": {
+            "description": "Successfull operation",
+            "content": {
+              "application/json": {
+                "example": {
+                  "success": true,
+                  "message": "successful request",
+                  "number_of_entries": 2,
+                  "current_page": 1,
+                  "total_pages": 1,
+                  "questions": [
+                    {
+                      "question_id": 43,
+                      "subject_name": "Cucumber",
+                      "question": "What is Cucumber?",
+                      "solution": "sdcsaopis sdposd fpoisd sspdofiswe fcpsdoifs dcfsdpofis cspdjics",
+                      "time": 2
+                    }
+                  ]
+                }
+              },
+              "application/xml": {
+                "example": {
+                  "success": true,
+                  "message": "successful request",
+                  "number_of_entries": 2,
+                  "current_page": 1,
+                  "total_pages": 1,
+                  "questions": [
+                    {
+                      "question_id": 43,
+                      "subject_name": "Cucumber",
+                      "question": "What is Cucumber?",
+                      "solution": "sdcsaopis sdposd fpoisd sspdofiswe fcpsdoifs dcfsdpofis cspdjics",
+                      "time": 2
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/404Error"
+          },
+          "413": {
+            "$ref": "#/components/responses/413Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/500Error"
+          }
+        }
+      }
+    },
+    "/api/questions/by_subject": {
+      "get": {
+        "tags": ["questions"],
+        "security": [{ "BearerAuth": [] }],
+        "operationId": "getQuestionsBySubject",
+        "parameters": [
+          {
+            "name": "subject",
+            "in": "header",
+            "description": "find user by subject",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull operation",
+            "content": {
+              "application/json": {
+                "example": {
+                  "success": true,
+                  "message": "successful request",
+                  "number_of_entries": 2,
+                  "current_page": 1,
+                  "total_pages": 1,
+                  "questions": [
+                    {
+                      "question_id": 43,
+                      "subject_name": "Cucumber",
+                      "question": "What is Cucumber?",
+                      "solution": "sdcsaopis sdposd fpoisd sspdofiswe fcpsdoifs dcfsdpofis cspdjics",
+                      "time": 2
+                    }
+                  ]
+                }
+              },
+              "application/xml": {
+                "example": {
+                  "success": true,
+                  "message": "successful request",
+                  "number_of_entries": 2,
+                  "current_page": 1,
+                  "total_pages": 1,
+                  "questions": [
+                    {
+                      "question_id": 43,
+                      "subject_name": "Cucumber",
+                      "question": "What is Cucumber?",
+                      "solution": "sdcsaopis sdposd fpoisd sspdofiswe fcpsdoifs dcfsdpofis cspdjics",
+                      "time": 2
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/404Error"
+          },
+          "413": {
+            "$ref": "#/components/responses/413Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/500Error"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -592,6 +838,25 @@
             "example": {
               "success": false,
               "message": "Failed to update User"
+            }
+          }
+        }
+      },
+      "413Error": {
+        "description": "Requested page number is too large",
+        "content": {
+          "application/json": {
+            "example": {
+              "success": false,
+              "message": "Requested page number is too large",
+              "max number of pages": 2
+            }
+          },
+          "application/xml": {
+            "example": {
+              "success": false,
+              "message": "Requested page number is too large",
+              "max number of pages": 2
             }
           }
         }
