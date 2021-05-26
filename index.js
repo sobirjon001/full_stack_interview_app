@@ -14,12 +14,8 @@ initialise();
 
 // server settings
 const port = process.env.PORT || 7000;
-const sslcert_path =
-  process.env.SSL_CERT_PATH || "/home/sobir/sslcert/server.crt";
-const sslkey_path =
-  process.env.SSL_KEY_PATH || "/home/sobir/sslcert/server.key";
-const privateKey = fs.readFileSync(sslkey_path, "utf8");
-const certificate = fs.readFileSync(sslcert_path, "utf8");
+const privateKey = fs.readFileSync("./sslcert/*.key", "utf8");
+const certificate = fs.readFileSync("./sslcert/*.crt", "utf8");
 const credentials = { key: privateKey, cert: certificate };
 
 // app settings

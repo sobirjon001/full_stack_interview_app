@@ -37,7 +37,7 @@ services:
       - SECRET_KEY=abc1234
       - ADMIN_EMAIL=admin@cambridge.com
       - ADMIN_PASSWORD=cambridge
-      - SSL_CERT_PATH=ssl_cert_path_here
-      - SSL_KEY_PATH=ssl_key_path_here
+    volumes:
+      - "~/sslcert:/usr/src/app/sslcert"
     ports:
       - "7000:7000"
