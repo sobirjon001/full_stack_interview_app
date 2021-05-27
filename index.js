@@ -10,12 +10,23 @@ const cors = require("cors");
 const https = require("https");
 
 // first initialisation
-initialise();
+setTimeout(() => {
+  // this delay is needed to give some time for mysql to be deployed
+  // and be ready before api server performs initialisation
+  // otherwise api crashes while docker-compose
+  initialise();
+}, 5000);
 
 // server settings
 const port = process.env.PORT || 7000;
-const privateKey = fs.readFileSync("./sslcert/*.key", "utf8");
-const certificate = fs.readFileSync("./sslcert/*.crt", "utf8");
+const privateKey = fs.readFileSync("./sslcert/server.key", {
+  encoding: "utf8",
+  flag: "r",
+});
+const certificate = fs.readFileSync("./sslcert/server.crt", {
+  encoding: "utf8",
+  flag: "r",
+});
 const credentials = { key: privateKey, cert: certificate };
 
 // app settings
